@@ -1,0 +1,10 @@
+std_msgs/Header header
+
+float32 lateral_error_m
+float32 yaw_error_rad
+float32 distance_m
+
+bool markers_detected
+int32 num_markers_detected
+string visibility_class
+float32 confidence
