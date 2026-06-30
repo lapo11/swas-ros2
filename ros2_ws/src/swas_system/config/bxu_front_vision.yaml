@@ -1,0 +1,49 @@
+bxu_front_vision_node:
+  ros__parameters:
+    camera_device: "/dev/v4l/by-id/usb-openaicam_openaicam_5423534724-video-index0"
+    calib_file: "calib/front_cam_1280x720_calib.npz"
+
+    frame_width: 1280
+    frame_height: 720
+    capture_fps: 30
+    publish_rate_hz: 15.0
+
+    aruco_dictionary_id: 0
+
+    clahe_enabled: true
+    clahe_clip_limit: 2.0
+    clahe_tile_grid_width: 8
+    clahe_tile_grid_height: 8
+
+    detection_persist_frames: 4
+    pose_smoothing_window: 5
+
+    target_center_x_mm: 0.0
+    target_center_y_mm: 0.0
+
+    center_pair_only_below_cm: 45.0
+    center_pair_only_max_lateral_cm: 30.0
+    blind_start_distance_cm: 30.0
+    near_visible_distance_cm: 100.0
+
+    marker_ids: [2, 3, 4, 5]
+
+    marker_2:
+      size_mm: 64.0
+      center_x_mm: -433.0
+      center_y_mm: 0.0
+
+    marker_3:
+      size_mm: 64.0
+      center_x_mm: 442.0
+      center_y_mm: 0.0
+
+    marker_4:
+      size_mm: 66.0
+      center_x_mm: -105.0
+      center_y_mm: 0.0
+
+    marker_5:
+      size_mm: 64.0
+      center_x_mm: 110.0
+      center_y_mm: 0.0
