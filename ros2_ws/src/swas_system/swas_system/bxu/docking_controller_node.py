@@ -2,7 +2,7 @@ import numpy as np
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
-from std_msgs.msg import String
+from std_msgs.msg import String, Bool
 from swas_msgs.msg import BxuAlignmentOutput
 
 
@@ -13,13 +13,10 @@ class BxuDockingControllerNode(Node):
         self.declare_parameter('alignment_topic', '/bxu/docking_vision/alignment')
         self.declare_parameter('cmd_vel_topic', '/bxu/cmd_vel')
         self.declare_parameter('status_topic', '/bxu/docking/controller_status')
+        self.declare_parameter('enable_topic', '/bxu/docking_controller/enabled')
 
         self.declare_parameter('kp_xy', 0.0040)
         self.declare_parameter('kd_xy', 0.0004)
-
-
-        # self.declare_parameter('kp_xy', 0.0045)
-        # self.declare_parameter('kd_xy', 0.0004)
         self.declare_parameter('kp_theta', 10.0)
         self.declare_parameter('kd_theta', 0.25)
 
@@ -39,6 +36,7 @@ class BxuDockingControllerNode(Node):
         alignment_topic = self.get_parameter('alignment_topic').value
         cmd_vel_topic = self.get_parameter('cmd_vel_topic').value
         status_topic = self.get_parameter('status_topic').value
+        enable_topic = self.get_parameter('enable_topic').value
 
         self.kp_xy = float(self.get_parameter('kp_xy').value)
         self.kd_xy = float(self.get_parameter('kd_xy').value)
@@ -58,10 +56,12 @@ class BxuDockingControllerNode(Node):
         self.lost_tolerance_frames = int(self.get_parameter('lost_tolerance_frames').value)
         self.publish_status_enabled = bool(self.get_parameter('publish_status').value)
 
+        self.enabled = False
         self.cmd_vel_pub = self.create_publisher(Twist, cmd_vel_topic, 10)
-        self.status_pub = None
-        if self.publish_status_enabled:
-            self.status_pub = self.create_publisher(String, status_topic, 10)
+        self.status_pub = self.create_publisher(String, status_topic, 10) if self.publish_status_enabled else None
+
+        self.enable_sub = self.create_subscription(Bool, enable_topic, self._enable_cb, 10)
+        self.subscription = self.create_subscription(BxuAlignmentOutput, alignment_topic, self.alignment_callback, 10)
 
         self._prev_ex = None
         self._prev_ey = None
@@ -69,18 +69,25 @@ class BxuDockingControllerNode(Node):
         self._dex = 0.0
         self._dey = 0.0
         self._dtheta = 0.0
-
         self._stable_count = 0
         self._lost_count = 0
 
-        self.subscription = self.create_subscription(
-            BxuAlignmentOutput,
-            alignment_topic,
-            self.alignment_callback,
-            10
-        )
-
         self.get_logger().info('BXU docking controller node started.')
+
+    def _enable_cb(self, msg: Bool):
+        was_enabled = self.enabled
+        self.enabled = bool(msg.data)
+        if was_enabled and not self.enabled:
+            self._reset_pd()
+            self._stable_count = 0
+            self._lost_count = 0
+            self.cmd_vel_pub.publish(Twist())
+            self._publish_status('INACTIVE')
+        elif (not was_enabled) and self.enabled:
+            self._reset_pd()
+            self._stable_count = 0
+            self._lost_count = 0
+            self._publish_status('ACTIVE')
 
     def _publish_status(self, text: str):
         if self.status_pub is not None:
@@ -97,6 +104,9 @@ class BxuDockingControllerNode(Node):
         self._dtheta = 0.0
 
     def alignment_callback(self, msg: BxuAlignmentOutput):
+        if not self.enabled:
+            return
+
         if not msg.markers_detected:
             self._lost_count += 1
             if self._lost_count >= self.lost_tolerance_frames:
@@ -151,8 +161,7 @@ class BxuDockingControllerNode(Node):
             self._publish_status('DOCKED')
         else:
             self._publish_status(
-                f'ALIGNING dist_mm={dist_mm:.2f} theta_deg={theta_deg:.2f} '
-                f'stable={self._stable_count}/{self.stable_frames}'
+                f'ALIGNING dist_mm={dist_mm:.2f} theta_deg={theta_deg:.2f} stable={self._stable_count}/{self.stable_frames}'
             )
 
     def destroy_node(self):

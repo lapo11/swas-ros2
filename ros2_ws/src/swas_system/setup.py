@@ -34,6 +34,8 @@ setup(
             'bxu_front_approach_controller_node = swas_system.bxu.front_approach_controller_node:main',
             'bxu_docking_vision_node = swas_system.bxu.docking_vision_node:main',
             'bxu_docking_controller_node = swas_system.bxu.docking_controller_node:main',
+            'bxu_supervisor_node = swas_system.bxu.supervisor_node:main',
+            'bxu_battery_lift_node = swas_system.bxu.battery_lift_node:main',
         ],
     },
 )
