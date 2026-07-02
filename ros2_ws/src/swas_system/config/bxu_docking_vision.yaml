@@ -1,0 +1,35 @@
+bxu_docking_vision_node:
+  ros__parameters:
+    alignment_topic: "/bxu/docking_vision/alignment"
+    frame_id: "bxu_base_link"
+
+    cam_width: 640
+    cam_height: 480
+
+    cal_file_cam0: "calib/camera_0_640x480_calibration.npz"
+    cal_file_cam1: "calib/camera_1_640x480_calibration.npz"
+    zero_file: "calib/alignment_zero.npz"
+    zero_avg_frames: 30
+
+    marker_size_mm: 9.0
+    cam0_target_id: 0
+    cam1_target_id: 1
+    aruco_dict: "DICT_4X4_50"
+
+    cam0_pos_mm: [0.0, 0.0]
+    cam1_pos_mm: [600.0, 0.0]
+    cam_to_robot_r: [1.0, 0.0, 0.0, 1.0]
+
+    adaptive_thresh_win_size_min: 3
+    adaptive_thresh_win_size_max: 53
+    adaptive_thresh_win_size_step: 4
+    max_marker_perimeter_rate: 10.0
+    perspective_remove_pixel_per_cell: 8
+
+    clahe_clip_limit: 2.0
+    clahe_tile_grid: [8, 8]
+
+    publish_rate_hz: 10.0
+
+    enable_mjpeg_stream: true
+    stream_port: 5000

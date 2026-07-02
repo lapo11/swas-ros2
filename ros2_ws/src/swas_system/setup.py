@@ -33,6 +33,7 @@ setup(
             'bxu_front_vision_node = swas_system.bxu.front_vision_node:main',
             'bxu_front_approach_controller_node = swas_system.bxu.front_approach_controller_node:main',
             'bxu_docking_vision_node = swas_system.bxu.docking_vision_node:main',
+            'bxu_docking_controller_node = swas_system.bxu.docking_controller_node:main',
         ],
     },
 )
