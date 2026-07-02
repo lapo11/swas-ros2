@@ -1,0 +1,43 @@
+bxu_front_approach_controller_node:
+  ros__parameters:
+    # Search
+    rotate_search_speed: 0.30      # rad/s
+
+    # Coarse PD gains (tuned in deg / cm — do not rescale)
+    coarse_kp_yaw: 0.008
+    coarse_kd_yaw: 0.002
+    coarse_kp_lat: 0.0030
+    coarse_kd_lat: 0.0006
+    coarse_kp_dist: 0.010
+    coarse_max_omega: 0.25
+    coarse_max_vy: 0.08
+    coarse_max_vx: 0.10
+    coarse_min_omega: 0.07
+    coarse_min_vy: 0.04
+    coarse_min_vx: 0.04
+
+    # Fine phase (discrete pulses)
+    fine_rotate_speed: 0.10        # rad/s
+    fine_slide_speed: 0.05         # m/s
+    fine_forward_speed: 0.05       # m/s
+    fine_rotate_pulse_s: 0.18
+    fine_slide_pulse_s: 0.16
+    fine_forward_pulse_s: 0.6
+
+    # Blind final push
+    blind_forward_speed: 0.15      # m/s
+    blind_forward_pulse_s: 1.4667
+
+    # Thresholds (deg / cm, matching global_config.py)
+    yaw_fine_deg: 0.7
+    lat_fine_cm: 1.0
+    yaw_approach_deg: 3.5
+    lat_approach_cm: 3.0
+    near_visible_distance_cm: 35.0
+    blind_entry_distance_cm: 23.0
+
+    # Timing
+    action_dt: 0.05
+    obs_stale_timeout_s: 0.35
+    fine_memory_timeout_s: 2.0
+    confirm_frames: 2

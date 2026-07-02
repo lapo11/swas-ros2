@@ -1,0 +1,33 @@
+bxu_motion_node:
+  ros__parameters:
+    move_port: "/dev/serial/by-id/usb-MicroPython_Board_in_FS_mode_31c5dd4d04cc2c72-if00"
+    baud_rate: 115200
+    serial_timeout_s: 0.05
+    startup_delay_s: 2.0
+
+    cmd_vel_topic: "/bxu/cmd_vel"
+    status_topic: "/bxu/motion/status"
+    heartbeat_interval_s: 0.2
+
+    enable_heartbeat: true
+    heartbeat_command: "V 0 0 0"
+    zero_command: "V 0 0 0"
+
+    max_vx: 0.30
+    max_vy: 0.30
+    max_omega: 0.80
+
+    min_nonzero_vx: 0.0
+    min_nonzero_vy: 0.0
+    min_nonzero_omega: 0.0
+
+    invert_vx: false
+    invert_vy: false
+    invert_omega: false
+
+    command_prefix: "V"
+    command_decimal_places: 3
+    flush_each_write: true
+
+    log_commands: false
+    publish_status: true
