@@ -24,9 +24,14 @@ bxu_front_approach_controller_node:
     fine_slide_pulse_s: 0.16
     fine_forward_pulse_s: 0.6
 
-    # Blind final push
-    blind_forward_speed: 0.15      # m/s
-    blind_forward_pulse_s: 1.4667
+    # Blind final push control
+    blind_forward_axis: "x"        # use "y" if your robot approach axis is y
+    blind_forward_speed_mps: 0.05  # this is APPROACH_SPEED_MS
+    blind_forward_ramp_high_mult: 3.0
+    blind_forward_ramp_high_duration_s: 5.0
+    blind_forward_ramp_transition_s: 4.0
+    blind_forward_detection_confirm_frames: 3
+    blind_forward_timeout_s: 25.0
 
     # Thresholds (deg / cm, matching global_config.py)
     yaw_fine_deg: 0.7
@@ -39,5 +44,6 @@ bxu_front_approach_controller_node:
     # Timing
     action_dt: 0.05
     obs_stale_timeout_s: 0.35
+    dock_obs_stale_timeout_s: 0.5
     fine_memory_timeout_s: 2.0
     confirm_frames: 2
