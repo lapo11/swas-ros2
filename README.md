@@ -1,11 +1,22 @@
 # SWAS — Automated EV Battery Swap System
 
-SWAS is a prototype automated battery-swap system developed by **RU Technologies**.  
-It demonstrates the exchange of a Battery Unit (BU) between a stationary **Battery Receiving Unit (BRU)** and an autonomous **Battery Exchange Unit (BXU)**.
+SWAS is a prototype automated battery-swap system developed by RU Technologies.
+It demonstrates the exchange of a Battery Unit (BU) between a stationary Battery Receiving Unit (BRU) and an autonomous Battery Exchange Unit (BXU).
 
 The repository contains the ROS 2 software, Gazebo simulation environment, robot descriptions, operator HMI, YOLO model and dataset material, CAD references, and development scripts.
 
-**Software implementation:** Lapo Veca.
+Repository and software implementation: Lapo Veca.
+
+<p align="center">
+  <img src="docs/images/station-reference.jpg" alt="Conceptual Gazebo visualization of a RU Technologies SWAS station" width="900">
+</p>
+
+*Conceptual Gazebo visualization of a possible RU Technologies SWAS station. This is a prototype reference, not an official station design.*
+
+[System architecture](docs/SYSTEM_ARCHITECTURE.md) · [Hardware](docs/HARDWARE.md) · [Operation](docs/OPERATION.md) · [Package documentation](#package-documentation)
+
+
+
 
 [← Back to top](#swas--automated-ev-battery-swap-system)
 
