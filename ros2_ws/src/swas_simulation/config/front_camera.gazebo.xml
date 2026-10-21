@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<gazebo reference="front_camera_link">
+
+  <sensor name="front_camera_sensor" type="camera">
+
+    <!-- Gazebo camera looks along its local +X.
+         front_camera_link already faces BXU +X. -->
+    <pose>0 0 0 0 0 0</pose>
+
+    <always_on>true</always_on>
+    <update_rate>30</update_rate>
+    <visualize>true</visualize>
+
+    <topic>/bxu/front_camera/image_raw</topic>
+
+    <!-- ROS image coordinates use the optical frame. -->
+    <gz_frame_id>front_camera_optical_frame</gz_frame_id>
+
+    <camera>
+      <!-- Preview value only: replace with calibrated optics later. -->
+      <horizontal_fov>1.8325957145940461</horizontal_fov>
+
+      <image>
+        <width>1280</width>
+        <height>720</height>
+        <format>R8G8B8</format>
+      </image>
+
+      <clip>
+        <near>0.01</near>
+        <far>20.0</far>
+      </clip>
+
+      <camera_info_topic>/bxu/front_camera/camera_info</camera_info_topic>
+    </camera>
+
+  </sensor>
+</gazebo>

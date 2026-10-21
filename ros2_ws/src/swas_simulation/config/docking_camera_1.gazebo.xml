@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<gazebo reference="docking_camera_1_link">
+
+  <sensor name="docking_camera_1_sensor" type="camera">
+
+    <!-- Rendered image matches docking_camera_1_optical_frame:
+        image right -> BXU -Y
+        image down  -> BXU +X
+        view        -> BXU +Z
+    -->
+    <pose>0 0 0 1.5707963267948966 -1.5707963267948966 0</pose>
+
+    <always_on>true</always_on>
+    <update_rate>30</update_rate>
+    <visualize>true</visualize>
+
+    <topic>/bxu/docking_camera_1/image_raw</topic>
+
+    <gz_frame_id>docking_camera_1_optical_frame</gz_frame_id>
+
+    <camera>
+
+      <!-- Temporary pinhole optics; tune independently from camera 0
+           once both hardware calibration matrices are available.
+      -->
+      <horizontal_fov>0.9272952180016122</horizontal_fov>
+
+      <image>
+        <width>640</width>
+        <height>480</height>
+        <format>R8G8B8</format>
+      </image>
+
+      <clip>
+        <near>0.01</near>
+        <far>20.0</far>
+      </clip>
+
+      <camera_info_topic>/bxu/docking_camera_1/camera_info</camera_info_topic>
+
+    </camera>
+
+  </sensor>
+
+</gazebo>

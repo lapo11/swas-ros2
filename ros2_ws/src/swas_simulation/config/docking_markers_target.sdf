@@ -1,0 +1,650 @@
+<?xml version="1.0"?>
+<sdf version="1.9">
+  <model name="docking_markers_target">
+    <pose>0 0 0 0 0 0</pose>
+    <link name="docking_marker_0_link">
+      <pose>0 0 0 0 0 0</pose>
+      <visual name="docking_marker_0_background">
+        <pose>0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.015000000 0.015000000 0.000200000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_0_0">
+        <pose>-0.003750000 0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_0_1">
+        <pose>-0.002250000 0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_0_2">
+        <pose>-0.000750000 0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_0_3">
+        <pose>0.000750000 0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_0_4">
+        <pose>0.002250000 0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_0_5">
+        <pose>0.003750000 0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_1_0">
+        <pose>-0.003750000 0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_1_2">
+        <pose>-0.000750000 0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_1_5">
+        <pose>0.003750000 0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_2_0">
+        <pose>-0.003750000 0.000750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_2_1">
+        <pose>-0.002250000 0.000750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_2_3">
+        <pose>0.000750000 0.000750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_2_5">
+        <pose>0.003750000 0.000750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_3_0">
+        <pose>-0.003750000 -0.000750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_3_1">
+        <pose>-0.002250000 -0.000750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_3_2">
+        <pose>-0.000750000 -0.000750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_3_5">
+        <pose>0.003750000 -0.000750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_4_0">
+        <pose>-0.003750000 -0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_4_1">
+        <pose>-0.002250000 -0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_4_2">
+        <pose>-0.000750000 -0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_4_4">
+        <pose>0.002250000 -0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_4_5">
+        <pose>0.003750000 -0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_5_0">
+        <pose>-0.003750000 -0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_5_1">
+        <pose>-0.002250000 -0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_5_2">
+        <pose>-0.000750000 -0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_5_3">
+        <pose>0.000750000 -0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_5_4">
+        <pose>0.002250000 -0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_0_cell_5_5">
+        <pose>0.003750000 -0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+    </link>
+    <link name="docking_marker_1_link">
+      <pose>0 0 0 0 0 0</pose>
+      <visual name="docking_marker_1_background">
+        <pose>0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.015000000 0.015000000 0.000200000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_0_0">
+        <pose>-0.003750000 0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_0_1">
+        <pose>-0.002250000 0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_0_2">
+        <pose>-0.000750000 0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_0_3">
+        <pose>0.000750000 0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_0_4">
+        <pose>0.002250000 0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_0_5">
+        <pose>0.003750000 0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_1_0">
+        <pose>-0.003750000 0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_1_1">
+        <pose>-0.002250000 0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_1_2">
+        <pose>-0.000750000 0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_1_3">
+        <pose>0.000750000 0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_1_4">
+        <pose>0.002250000 0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_1_5">
+        <pose>0.003750000 0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_2_0">
+        <pose>-0.003750000 0.000750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_2_5">
+        <pose>0.003750000 0.000750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_3_0">
+        <pose>-0.003750000 -0.000750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_3_2">
+        <pose>-0.000750000 -0.000750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_3_3">
+        <pose>0.000750000 -0.000750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_3_5">
+        <pose>0.003750000 -0.000750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_4_0">
+        <pose>-0.003750000 -0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_4_2">
+        <pose>-0.000750000 -0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_4_4">
+        <pose>0.002250000 -0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_4_5">
+        <pose>0.003750000 -0.002250000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_5_0">
+        <pose>-0.003750000 -0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_5_1">
+        <pose>-0.002250000 -0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_5_2">
+        <pose>-0.000750000 -0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_5_3">
+        <pose>0.000750000 -0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_5_4">
+        <pose>0.002250000 -0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <visual name="docking_marker_1_cell_5_5">
+        <pose>0.003750000 -0.003750000 0.000100000 0.000000000 0.000000000 0.000000000</pose>
+        <geometry>
+          <box>
+            <size>0.001500000 0.001500000 0.000400000</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

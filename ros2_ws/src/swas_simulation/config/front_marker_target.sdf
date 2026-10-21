@@ -1,0 +1,1577 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.9">
+  <model name="front_marker_target">
+    <static>true</static>
+    <pose>0.0 0.0 0.0 0 0 0</pose>
+    <link name="target_link">
+      <visual name="white_board">
+        <pose>0.006 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 1.2 0.1</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>1 1 1 1</ambient>
+          <diffuse>1 1 1 1</diffuse>
+          <emissive>1 1 1 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r0_c0">
+        <pose>0 0.45966666666666667 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r0_c1">
+        <pose>0 0.449 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r0_c2">
+        <pose>0 0.43833333333333335 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r0_c3">
+        <pose>0 0.42766666666666664 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r0_c4">
+        <pose>0 0.417 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r0_c5">
+        <pose>0 0.4063333333333333 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r1_c0">
+        <pose>0 0.45966666666666667 0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r1_c1">
+        <pose>0 0.449 0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r1_c2">
+        <pose>0 0.43833333333333335 0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r1_c5">
+        <pose>0 0.4063333333333333 0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r2_c0">
+        <pose>0 0.45966666666666667 0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r2_c1">
+        <pose>0 0.449 0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r2_c2">
+        <pose>0 0.43833333333333335 0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r2_c5">
+        <pose>0 0.4063333333333333 0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r3_c0">
+        <pose>0 0.45966666666666667 -0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r3_c1">
+        <pose>0 0.449 -0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r3_c2">
+        <pose>0 0.43833333333333335 -0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r3_c4">
+        <pose>0 0.417 -0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r3_c5">
+        <pose>0 0.4063333333333333 -0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r4_c0">
+        <pose>0 0.45966666666666667 -0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r4_c3">
+        <pose>0 0.42766666666666664 -0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r4_c5">
+        <pose>0 0.4063333333333333 -0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r5_c0">
+        <pose>0 0.45966666666666667 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r5_c1">
+        <pose>0 0.449 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r5_c2">
+        <pose>0 0.43833333333333335 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r5_c3">
+        <pose>0 0.42766666666666664 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r5_c4">
+        <pose>0 0.417 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m2_r5_c5">
+        <pose>0 0.4063333333333333 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r0_c0">
+        <pose>0 -0.41533333333333333 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r0_c1">
+        <pose>0 -0.426 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r0_c2">
+        <pose>0 -0.43666666666666665 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r0_c3">
+        <pose>0 -0.44733333333333336 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r0_c4">
+        <pose>0 -0.458 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r0_c5">
+        <pose>0 -0.4686666666666667 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r1_c0">
+        <pose>0 -0.41533333333333333 0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r1_c2">
+        <pose>0 -0.43666666666666665 0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r1_c3">
+        <pose>0 -0.44733333333333336 0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r1_c5">
+        <pose>0 -0.4686666666666667 0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r2_c0">
+        <pose>0 -0.41533333333333333 0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r2_c2">
+        <pose>0 -0.43666666666666665 0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r2_c3">
+        <pose>0 -0.44733333333333336 0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r2_c5">
+        <pose>0 -0.4686666666666667 0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r3_c0">
+        <pose>0 -0.41533333333333333 -0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r3_c1">
+        <pose>0 -0.426 -0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r3_c3">
+        <pose>0 -0.44733333333333336 -0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r3_c4">
+        <pose>0 -0.458 -0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r3_c5">
+        <pose>0 -0.4686666666666667 -0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r4_c0">
+        <pose>0 -0.41533333333333333 -0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r4_c1">
+        <pose>0 -0.426 -0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r4_c4">
+        <pose>0 -0.458 -0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r4_c5">
+        <pose>0 -0.4686666666666667 -0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r5_c0">
+        <pose>0 -0.41533333333333333 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r5_c1">
+        <pose>0 -0.426 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r5_c2">
+        <pose>0 -0.43666666666666665 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r5_c3">
+        <pose>0 -0.44733333333333336 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r5_c4">
+        <pose>0 -0.458 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m3_r5_c5">
+        <pose>0 -0.4686666666666667 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r0_c0">
+        <pose>0 0.1325 0.027500000000000004 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r0_c1">
+        <pose>0 0.1215 0.027500000000000004 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r0_c2">
+        <pose>0 0.1105 0.027500000000000004 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r0_c3">
+        <pose>0 0.09949999999999999 0.027500000000000004 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r0_c4">
+        <pose>0 0.0885 0.027500000000000004 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r0_c5">
+        <pose>0 0.07749999999999999 0.027500000000000004 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r1_c0">
+        <pose>0 0.1325 0.0165 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r1_c1">
+        <pose>0 0.1215 0.0165 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r1_c3">
+        <pose>0 0.09949999999999999 0.0165 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r1_c5">
+        <pose>0 0.07749999999999999 0.0165 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r2_c0">
+        <pose>0 0.1325 0.0055000000000000005 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r2_c1">
+        <pose>0 0.1215 0.0055000000000000005 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r2_c3">
+        <pose>0 0.09949999999999999 0.0055000000000000005 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r2_c4">
+        <pose>0 0.0885 0.0055000000000000005 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r2_c5">
+        <pose>0 0.07749999999999999 0.0055000000000000005 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r3_c0">
+        <pose>0 0.1325 -0.0055000000000000005 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r3_c2">
+        <pose>0 0.1105 -0.0055000000000000005 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r3_c3">
+        <pose>0 0.09949999999999999 -0.0055000000000000005 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r3_c5">
+        <pose>0 0.07749999999999999 -0.0055000000000000005 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r4_c0">
+        <pose>0 0.1325 -0.0165 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r4_c4">
+        <pose>0 0.0885 -0.0165 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r4_c5">
+        <pose>0 0.07749999999999999 -0.0165 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r5_c0">
+        <pose>0 0.1325 -0.027500000000000004 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r5_c1">
+        <pose>0 0.1215 -0.027500000000000004 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r5_c2">
+        <pose>0 0.1105 -0.027500000000000004 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r5_c3">
+        <pose>0 0.09949999999999999 -0.027500000000000004 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r5_c4">
+        <pose>0 0.0885 -0.027500000000000004 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m4_r5_c5">
+        <pose>0 0.07749999999999999 -0.027500000000000004 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.011000000000000001 0.011000000000000001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r0_c0">
+        <pose>0 -0.08333333333333334 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r0_c1">
+        <pose>0 -0.094 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r0_c2">
+        <pose>0 -0.10466666666666667 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r0_c3">
+        <pose>0 -0.11533333333333333 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r0_c4">
+        <pose>0 -0.126 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r0_c5">
+        <pose>0 -0.13666666666666666 0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r1_c0">
+        <pose>0 -0.08333333333333334 0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r1_c1">
+        <pose>0 -0.094 0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r1_c5">
+        <pose>0 -0.13666666666666666 0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r2_c0">
+        <pose>0 -0.08333333333333334 0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r2_c2">
+        <pose>0 -0.10466666666666667 0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r2_c3">
+        <pose>0 -0.11533333333333333 0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r2_c5">
+        <pose>0 -0.13666666666666666 0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r3_c0">
+        <pose>0 -0.08333333333333334 -0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r3_c3">
+        <pose>0 -0.11533333333333333 -0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r3_c4">
+        <pose>0 -0.126 -0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r3_c5">
+        <pose>0 -0.13666666666666666 -0.005333333333333333 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r4_c0">
+        <pose>0 -0.08333333333333334 -0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r4_c3">
+        <pose>0 -0.11533333333333333 -0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r4_c5">
+        <pose>0 -0.13666666666666666 -0.016 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r5_c0">
+        <pose>0 -0.08333333333333334 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r5_c1">
+        <pose>0 -0.094 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r5_c2">
+        <pose>0 -0.10466666666666667 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r5_c3">
+        <pose>0 -0.11533333333333333 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r5_c4">
+        <pose>0 -0.126 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+      <visual name="m5_r5_c5">
+        <pose>0 -0.13666666666666666 -0.026666666666666665 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.010666666666666666 0.010666666666666666</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+    </link>
+  </model>
+</sdf>

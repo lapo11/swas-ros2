@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<robot name="bru" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!--
+    BRU coordinate convention:
+      +X = BXU approach direction, out of the under-body opening
+      +Y = left when looking along +X
+      +Z = up
+
+    bru_base_link is placed in the world by the simulation launch.
+    bru_center_link is the centre of the under-body opening and
+    battery receiver, i.e. the BXU docking target.
+    bru_lock_link rotates about Z at the same centre.
+  -->
+
+  <xacro:property name="bru_mesh_x" value="0.0"/>
+  <xacro:property name="bru_mesh_y" value="0.0"/>
+  <xacro:property name="bru_mesh_z" value="0.0"/>
+  <xacro:property name="bru_mesh_yaw" value="1.57"/>
+
+  <!-- Set to 0.001 for a millimetre STL exported from FreeCAD.
+       Set to 1.0 if the STL is already in metres. -->
+  <xacro:property name="bru_mesh_scale" value="0.001"/>
+
+  <link name="bru_base_link">
+
+    <visual>
+      <origin
+        xyz="${bru_mesh_x} ${bru_mesh_y} ${bru_mesh_z}"
+        rpy="0 0 ${bru_mesh_yaw}"/>
+
+      <geometry>
+        <mesh
+          filename="package://swas_description/meshes/bru/bru_visual.stl"
+          scale="${bru_mesh_scale} ${bru_mesh_scale} ${bru_mesh_scale}"/>
+      </geometry>
+
+      <material name="bru_grey">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="100.0"/>
+      <inertia ixx="5.0" ixy="0.0" ixz="0.0"
+               iyy="5.0" iyz="0.0"
+               izz="5.0"/>
+    </inertial>
+
+    <gazebo reference="bru_base_link">
+      <gravity>false</gravity>
+    </gazebo>
+  </link>
+
+
+  <!-- Docking target: centre of under-body opening / battery receiver. -->
+  <link name="bru_center_link"/>
+
+  <joint name="bru_base_to_center_joint" type="fixed">
+    <parent link="bru_base_link"/>
+    <child link="bru_center_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+
+  <!-- Rotating lock reference frame; no visual geometry yet. -->
+  <link name="bru_lock_link">
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+               iyy="0.0001" iyz="0.0"
+               izz="0.0001"/>
+    </inertial>
+
+  </link>
+
+  <joint name="bru_lock_joint" type="revolute">
+    <parent link="bru_center_link"/>
+    <child link="bru_lock_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="${-pi}" upper="${pi}" effort="10.0" velocity="1.0"/>
+  </joint>
+
+  <gazebo reference="bru_lock_link">
+    <gravity>false</gravity>
+  </gazebo>
+
+  <gazebo>
+    <static>true</static>
+  </gazebo>
+
+</robot>

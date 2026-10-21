@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<robot name="bxu" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Coordinate convention:
+       +X = forward, toward front camera / BRU
+       +Y = left
+       +Z = up
+
+       bxu_base_link:
+       - Origin: midpoint of wheel-ground-contact footprint
+       - z = 0 is the floor plane
+  -->
+
+  <!-- Main external BXU envelope, from drawing -->
+  <xacro:property name="bxu_length_x" value="1.650"/>
+  <xacro:property name="bxu_width_y"  value="1.456"/>
+  <xacro:property name="bxu_height_z" value="0.114"/>
+
+  <!-- Half dimensions -->
+  <xacro:property name="bxu_half_x" value="${bxu_length_x / 2.0}"/>
+  <xacro:property name="bxu_half_y" value="${bxu_width_y / 2.0}"/>
+  <xacro:property name="bxu_half_z" value="${bxu_height_z / 2.0}"/>
+
+  <!-- DAE mesh calibration:
+       Initial estimate based on observed DAE origin near lower front-right corner.
+       Tune only these values in RViz until the base frame is at the desired footprint centre.
+  -->
+  <!-- <xacro:property name="mesh_x" value="0.825"/>
+  <xacro:property name="mesh_y" value="-0.728"/>
+  <xacro:property name="mesh_z" value="0.000"/> -->
+
+<!-- The following values are the result of tuning in RViz, since the initial meshes are not perfectly aligned. -->
+  <xacro:property name="mesh_x" value="0.863"/>
+  <xacro:property name="mesh_y" value="-0.750"/>
+  <xacro:property name="mesh_z" value="-0.024"/>
+
+  <xacro:property name="mesh_yaw" value="${pi / 2}"/>
+
+  <!-- Root reference frame: massless to avoid KDL root-inertia warning. -->
+  <link name="bxu_base_link"/>
+
+  <link name="bxu_chassis_link">
+
+    <visual>
+      <origin
+        xyz="${mesh_x} ${mesh_y} ${mesh_z}"
+        rpy="0 0 ${mesh_yaw}"/>
+
+      <geometry>
+        <mesh
+          filename="package://swas_description/meshes/bxu/bxu_visual.dae"
+          scale="1 1 1"/>
+      </geometry>
+    </visual>
+
+    <!-- Temporary simple collision envelope:
+         Located at visual/physical body centre, 57 mm above floor. -->
+    <collision>
+      <origin xyz="0 0 ${bxu_half_z}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${bxu_length_x} ${bxu_width_y} ${bxu_height_z}"/>
+      </geometry>
+    </collision>
+
+    <!-- Placeholder dynamics; replace before Gazebo physics tuning. -->
+    <inertial>
+      <origin xyz="0 0 ${bxu_half_z}" rpy="0 0 0"/>
+      <mass value="20.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+               iyy="1.0" iyz="0.0"
+               izz="1.0"/>
+    </inertial>
+
+  </link>
+
+  <joint name="bxu_base_to_chassis_joint" type="fixed">
+    <parent link="bxu_base_link"/>
+    <child link="bxu_chassis_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Front USB camera:
+       centred on the forward, 1456-mm-wide face; at mid-body height. -->
+  <link name="front_camera_link"/>
+
+  <joint name="front_camera_joint" type="fixed">
+    <parent link="bxu_base_link"/>
+    <child link="front_camera_link"/>
+    <origin xyz="${bxu_half_x} 0 ${bxu_half_z}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Conventional ROS camera optical frame:
+       +Z forward, +X right, +Y down. -->
+  <link name="front_camera_optical_frame"/>
+
+  <joint name="front_camera_optical_joint" type="fixed">
+    <parent link="front_camera_link"/>
+    <child link="front_camera_optical_frame"/>
+    <origin xyz="0 0 0" rpy="-1.57079632679 0 -1.57079632679"/>
+  </joint>
+
+  <!-- Upward-facing docking camera 0.
+       Current locations are your preliminary measurements.
+       Verify camera labels and actual physical separation before relying on them. -->
+  <link name="docking_camera_0_link"/>
+
+  <joint name="docking_camera_0_joint" type="fixed">
+    <parent link="bxu_base_link"/>
+    <child link="docking_camera_0_link"/>
+    <origin xyz="0.400 0.500 0.050" rpy="0 0 0"/>
+  </joint>
+
+  <link name="docking_camera_0_optical_frame"/>
+
+  <!-- Optical frame points upward:
+       start with ROS optical convention, then verify with Gazebo image orientation. -->
+  <joint name="docking_camera_0_optical_joint" type="fixed">
+    <parent link="docking_camera_0_link"/>
+    <child link="docking_camera_0_optical_frame"/>
+    <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+  </joint>
+
+  <!-- Upward-facing docking camera 1. -->
+  <link name="docking_camera_1_link"/>
+
+  <joint name="docking_camera_1_joint" type="fixed">
+    <parent link="bxu_base_link"/>
+    <child link="docking_camera_1_link"/>
+    <origin xyz="0.400 -0.500 0.050" rpy="0 0 0"/>
+  </joint>
+
+  <link name="docking_camera_1_optical_frame"/>
+
+  <joint name="docking_camera_1_optical_joint" type="fixed">
+    <parent link="docking_camera_1_link"/>
+    <child link="docking_camera_1_optical_frame"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Nominal docking target/reference. Keep at base origin until you
+       determine which physical point defines completed docking. -->
+  <link name="bxu_docking_reference_frame"/>
+
+  <joint name="bxu_docking_reference_joint" type="fixed">
+    <parent link="bxu_base_link"/>
+    <child link="bxu_docking_reference_frame"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+</robot>

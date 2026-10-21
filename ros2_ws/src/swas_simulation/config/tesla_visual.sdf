@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<sdf version="1.9">
+  <model name="tesla_model_3">
+    <static>true</static>
+
+    <link name="car_visual_link">
+      <visual name="car_visual">
+
+        <!--
+          Uniform scale: 0.8976.
+          Centre original X/Y bounds and place original minimum Z at zero.
+          Preserve the exported mesh's original orientation.
+        -->
+        <pose>-0.0002244 -0.00861696 0.67463616 0 0 0</pose>
+
+        <geometry>
+          <mesh>
+            <uri>package://swas_description/meshes/tesla/tesla_model_3.obj</uri>
+            <scale>0.8976 0.8976 0.8976</scale>
+          </mesh>
+        </geometry>
+
+        <cast_shadows>true</cast_shadows>
+
+      </visual>
+    </link>
+  </model>
+</sdf>
