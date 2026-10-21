@@ -3,6 +3,7 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from std_msgs.msg import String, Bool
+from std_srvs.srv import Trigger
 from swas_msgs.msg import BxuAlignmentOutput
 
 
@@ -32,6 +33,7 @@ class BxuDockingControllerNode(Node):
 
         self.declare_parameter('lost_tolerance_frames', 3)
         self.declare_parameter('publish_status', True)
+        self.declare_parameter('enable_control_services', False)
 
         alignment_topic = self.get_parameter('alignment_topic').value
         cmd_vel_topic = self.get_parameter('cmd_vel_topic').value
@@ -63,6 +65,12 @@ class BxuDockingControllerNode(Node):
         self.enable_sub = self.create_subscription(Bool, enable_topic, self._enable_cb, 10)
         self.subscription = self.create_subscription(BxuAlignmentOutput, alignment_topic, self.alignment_callback, 10)
 
+        self.enable_control_services = bool(self.get_parameter('enable_control_services').value)
+        if self.enable_control_services:
+            self.start_service = self.create_service(Trigger, '/bxu/docking_controller/start', self._start_service_cb)
+            self.stop_service = self.create_service(Trigger, '/bxu/docking_controller/stop', self._stop_service_cb)
+
+
         self._prev_ex = None
         self._prev_ey = None
         self._prev_theta = None
@@ -88,6 +96,24 @@ class BxuDockingControllerNode(Node):
             self._stable_count = 0
             self._lost_count = 0
             self._publish_status('ACTIVE')
+
+    def _start_service_cb(self, request, response):
+        enable_msg = Bool()
+        enable_msg.data = True
+        self._enable_cb(enable_msg)
+
+        response.success = True
+        response.message = 'BXU docking controller enabled.'
+        return response
+
+    def _stop_service_cb(self, request, response):
+        enable_msg = Bool()
+        enable_msg.data = False
+        self._enable_cb(enable_msg)
+
+        response.success = True
+        response.message = 'BXU docking controller disabled.'
+        return response
 
     def _publish_status(self, text: str):
         if self.status_pub is not None:

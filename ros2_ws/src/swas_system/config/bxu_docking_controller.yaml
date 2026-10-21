@@ -1,0 +1,25 @@
+bxu_docking_controller_node:
+  ros__parameters:
+    alignment_topic: "/bxu/docking_vision/alignment"
+    cmd_vel_topic: "/bxu/cmd_vel"
+    status_topic: "/bxu/docking/controller_status"
+    enable_topic: "/bxu/docking_controller/enabled"
+
+    kp_xy: 0.0040
+    kd_xy: 0.0004
+    kp_theta: 10.0
+    kd_theta: 0.25
+
+    max_vxy: 0.04
+    max_omega: 0.12
+
+    d_filter_alpha: 0.9
+    dock_dt: 0.1
+
+    xy_threshold_mm: 1.0
+    theta_threshold_deg: 2.0
+    stable_frames: 10
+
+    lost_tolerance_frames: 3
+    publish_status: true
+    enable_control_services: true

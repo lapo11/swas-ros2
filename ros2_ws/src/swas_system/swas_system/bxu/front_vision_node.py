@@ -10,7 +10,8 @@ from ament_index_python.packages import get_package_share_directory
 from cv_bridge import CvBridge
 from geometry_msgs.msg import Pose
 from rclpy.node import Node
-from sensor_msgs.msg import Image
+from sensor_msgs.msg import Image, CameraInfo
+from rclpy.qos import qos_profile_sensor_data
 from std_msgs.msg import Header
 
 
@@ -133,15 +134,33 @@ def rvec_tvec_to_pose(rvec, tvec):
 class BxuFrontVisionNode(Node):
     def __init__(self):
         super().__init__('bxu_front_vision_node')
+        self.declare_parameter('input_source', 'device')
+        self.declare_parameter('image_topic', '/bxu/front_camera/image_raw')
+        self.declare_parameter('camera_info_topic', '/bxu/front_camera/camera_info')
+        self.input_source = str(self.get_parameter('input_source').value)
+        if self.input_source not in ('device', 'ros'):
+            raise ValueError('input_source must be device or ros')
+        self.cam = None
+        self._ros_image = None
+        self._ros_info = None
+        self._input_header = None
+        self._ros_info_signature = None
+
 
 
         self._declare_parameters()
         self._load_parameters()
 
 
-        self.cam_mtx, self.dist_coeffs, self.reproj_err = load_calibration(
-            self.calib_file, (self.frame_width, self.frame_height)
-        )
+        if self.input_source == 'device':
+            self.cam_mtx, self.dist_coeffs, self.reproj_err = load_calibration(
+                self.calib_file, (self.frame_width, self.frame_height)
+            )
+        else:
+            self.cam_mtx = None
+            self.dist_coeffs = None
+            self.reproj_err = 0.0
+
 
 
         self.clahe = cv2.createCLAHE(
@@ -173,35 +192,55 @@ class BxuFrontVisionNode(Node):
         )
 
 
-        camera_device_real = os.path.realpath(self.camera_device)
-        self.cam = cv2.VideoCapture(camera_device_real, cv2.CAP_V4L2)
-        self.cam.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
-        self.cam.set(cv2.CAP_PROP_FRAME_WIDTH, self.frame_width)
-        self.cam.set(cv2.CAP_PROP_FRAME_HEIGHT, self.frame_height)
-        self.cam.set(cv2.CAP_PROP_FPS, self.capture_fps)
-        self.cam.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+        if self.input_source == 'device':
+            camera_device_real = os.path.realpath(self.camera_device)
+            self.cam = cv2.VideoCapture(camera_device_real, cv2.CAP_V4L2)
+            self.cam.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
+            self.cam.set(cv2.CAP_PROP_FRAME_WIDTH, self.frame_width)
+            self.cam.set(cv2.CAP_PROP_FRAME_HEIGHT, self.frame_height)
+            self.cam.set(cv2.CAP_PROP_FPS, self.capture_fps)
+            self.cam.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
 
-        if not self.cam.isOpened():
-            raise RuntimeError(f"Could not open USB camera: {camera_device_real}")
+            if not self.cam.isOpened():
+                raise RuntimeError(f"Could not open USB camera: {camera_device_real}")
 
 
-        ok, test = self.cam.read()
-        if not ok or test is None:
-            raise RuntimeError(f"USB camera opened but no frames received from {camera_device_real}")
+            ok, test = self.cam.read()
+            if not ok or test is None:
+                raise RuntimeError(f"USB camera opened but no frames received from {camera_device_real}")
 
 
-        h, w = test.shape[:2]
-        self.rect_cam_mtx, _ = cv2.getOptimalNewCameraMatrix(
-            self.cam_mtx, self.dist_coeffs, (w, h), 0, (w, h)
+            h, w = test.shape[:2]
+            self.rect_cam_mtx, _ = cv2.getOptimalNewCameraMatrix(
+                self.cam_mtx, self.dist_coeffs, (w, h), 0, (w, h)
+            )
+            self.undistort_map1, self.undistort_map2 = cv2.initUndistortRectifyMap(
+                self.cam_mtx, self.dist_coeffs, None, self.rect_cam_mtx, (w, h), cv2.CV_16SC2
+            )
+
+
+        else:
+            camera_device_real = 'ROS image input (ideal/undistorted)'
+            self.image_sub = self.create_subscription(
+                Image, str(self.get_parameter('image_topic').value),
+                self._ros_image_cb, qos_profile_sensor_data
+            )
+            self.info_sub = self.create_subscription(
+                CameraInfo, str(self.get_parameter('camera_info_topic').value),
+                self._ros_info_cb, qos_profile_sensor_data
+            )
+
+        self.aruco_dict = (
+            cv2.aruco.Dictionary_get(self.aruco_dictionary_id)
+            if hasattr(cv2.aruco, 'Dictionary_get')
+            else cv2.aruco.getPredefinedDictionary(self.aruco_dictionary_id)
         )
-        self.undistort_map1, self.undistort_map2 = cv2.initUndistortRectifyMap(
-            self.cam_mtx, self.dist_coeffs, None, self.rect_cam_mtx, (w, h), cv2.CV_16SC2
+        self.aruco_params = (
+            cv2.aruco.DetectorParameters_create()
+            if hasattr(cv2.aruco, 'DetectorParameters_create')
+            else cv2.aruco.DetectorParameters()
         )
-
-
-        self.aruco_dict = cv2.aruco.Dictionary_get(self.aruco_dictionary_id)
-        self.aruco_params = cv2.aruco.DetectorParameters_create()
 
 
         self.frame_idx = 0
@@ -460,6 +499,10 @@ class BxuFrontVisionNode(Node):
 
 
     def _detect_markers(self, gray):
+        if not hasattr(cv2.aruco, 'detectMarkers'):
+            detector = cv2.aruco.ArucoDetector(self.aruco_dict, self.aruco_params)
+            return detector.detectMarkers(gray)
+
         return cv2.aruco.detectMarkers(
             gray,
             self.aruco_dict,
@@ -508,17 +551,104 @@ class BxuFrontVisionNode(Node):
         else:
             output_frame = rectified
 
-        img_msg = self.bridge.cv2_to_imgmsg(output_frame, encoding='bgr8')
+        # img_msg = self.bridge.cv2_to_imgmsg(output_frame, encoding='bgr8')
+        # img_msg.header = header
+        # self.image_pub.publish(img_msg)
+
+        if self.input_source == 'ros':
+            # The processing pipeline already supplies a BGR uint8 image.
+            # Serialize it directly, avoiding the cv_bridge output type map.
+            if (
+                output_frame.dtype != np.uint8
+                or output_frame.ndim != 3
+                or output_frame.shape[2] != 3
+            ):
+                self.get_logger().error(
+                    f'Unexpected output image: '
+                    f'dtype={output_frame.dtype}, '
+                    f'shape={output_frame.shape}',
+                    throttle_duration_sec=5.0,
+                )
+                return
+
+            output_frame = np.ascontiguousarray(output_frame)
+
+            img_msg = Image()
+            img_msg.height = int(output_frame.shape[0])
+            img_msg.width = int(output_frame.shape[1])
+            img_msg.encoding = 'bgr8'
+            img_msg.is_bigendian = 0
+            img_msg.step = img_msg.width * 3
+            img_msg.data = output_frame.tobytes()
+
+        else:
+            # Preserve the existing hardware path.
+            img_msg = self.bridge.cv2_to_imgmsg(
+                output_frame, encoding='bgr8'
+            )
+
         img_msg.header = header
         self.image_pub.publish(img_msg)
 
+    def _ros_image_cb(self, msg):
+        self._ros_image = msg
+
+    def _ros_info_cb(self, msg):
+        k = np.asarray(msg.k, dtype=np.float64).reshape(3, 3)
+        d = np.asarray(msg.d, dtype=np.float64)
+        if (not np.all(np.isfinite(k)) or k[0, 0] <= 0
+                or k[1, 1] <= 0 or msg.width <= 0 or msg.height <= 0):
+            return
+        if not np.all(np.isfinite(d)) or np.any(np.abs(d) > 1e-10):
+            if self._ros_info is not None:
+                self._ros_info = None
+            self.get_logger().error(
+                'ROS input currently requires ideal/undistorted images with D=0. '
+                'Do not apply the hardware calibration to these images.',
+                throttle_duration_sec=5.0,
+            )
+            return
+        signature = (msg.width, msg.height, tuple(msg.k), msg.header.frame_id)
+        self.cam_mtx = k.astype(np.float32)
+        self.rect_cam_mtx = self.cam_mtx.copy()
+        self.dist_coeffs = np.zeros((5, 1), dtype=np.float32)
+        self._ros_info = msg
+        if signature != self._ros_info_signature:
+            self._ros_info_signature = signature
+            self.pose_history.clear()
+            self.last_seen.clear()
+            self.get_logger().info(
+                f'ROS camera ready: {msg.width}x{msg.height}, '
+                f'fx={k[0,0]:.3f}, fy={k[1,1]:.3f}; rectification bypassed'
+            )
 
     def process_frame(self):
-        ok, frame = self.cam.read()
-        if not ok or frame is None:
-            self.get_logger().warning('No frame received from front camera')
-            return
-
+        if self.input_source == 'ros':
+            if self._ros_image is None or self._ros_info is None:
+                return
+            msg = self._ros_image
+            self._ros_image = None
+            info = self._ros_info
+            if (msg.width, msg.height) != (info.width, info.height):
+                self.get_logger().error('Image and CameraInfo sizes differ',
+                                        throttle_duration_sec=5.0)
+                return
+            if not msg.header.frame_id or msg.header.frame_id != info.header.frame_id:
+                self.get_logger().error('Image and CameraInfo frame IDs differ or are empty',
+                                        throttle_duration_sec=5.0)
+                return
+            try:
+                frame = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+            except Exception as exc:
+                self.get_logger().error(f'Image conversion failed: {exc}',
+                                        throttle_duration_sec=5.0)
+                return
+            self._input_header = msg.header
+        else:
+            ok, frame = self.cam.read()
+            if not ok or frame is None:
+                self.get_logger().warning('No frame received from front camera')
+                return
 
         self.frame_idx += 1
 
@@ -529,12 +659,15 @@ class BxuFrontVisionNode(Node):
             bgr = frame.copy()
 
 
-        rectified = cv2.remap(
-            bgr,
-            self.undistort_map1,
-            self.undistort_map2,
-            interpolation=cv2.INTER_LINEAR
-        )
+        if self.input_source == 'ros':
+            rectified = bgr
+        else:
+            rectified = cv2.remap(
+                bgr,
+                self.undistort_map1,
+                self.undistort_map2,
+                interpolation=cv2.INTER_LINEAR
+            )
 
 
         gray = self._preprocess_for_detection(rectified)
@@ -633,9 +766,13 @@ class BxuFrontVisionNode(Node):
         )
 
 
-        header = Header()
-        header.stamp = self.get_clock().now().to_msg()
-        header.frame_id = 'bxu_front_camera'
+        if self.input_source == 'ros':
+            header = self._input_header
+        else:
+            header = Header()
+            header.stamp = self.get_clock().now().to_msg()
+            header.frame_id = 'bxu_front_camera'
+
 
 
         align_msg = BxuAlignmentOutput()

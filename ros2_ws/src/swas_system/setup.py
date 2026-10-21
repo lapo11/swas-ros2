@@ -15,6 +15,7 @@ setup(
         (os.path.join('share', package_name, 'launch'), glob('launch/*.py')),
         (os.path.join('share', package_name, 'config'), glob('config/*.yaml')),
         (os.path.join('share', package_name, 'calib'), glob('calib/*')),
+        (os.path.join('share', package_name, 'models'), glob('models/*onnx')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -36,6 +37,8 @@ setup(
             'bxu_docking_controller_node = swas_system.bxu.docking_controller_node:main',
             'bxu_supervisor_node = swas_system.bxu.supervisor_node:main',
             'bxu_battery_lift_node = swas_system.bxu.battery_lift_node:main',
+            'bxu_front_yolo_vision_node = swas_system.bxu.front_yolo_vision_node:main',
+            'bxu_front_yolo_approach_controller_node = swas_system.bxu.front_yolo_approach_controller_node:main',
         ],
     },
 )

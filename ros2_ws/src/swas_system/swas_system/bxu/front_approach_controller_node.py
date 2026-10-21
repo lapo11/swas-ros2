@@ -6,6 +6,7 @@ from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from std_msgs.msg import String, Bool
 from swas_msgs.msg import BxuAlignmentOutput
+from std_srvs.srv import Trigger
 
 SEARCH = 'SEARCH'
 COARSE_PD = 'COARSE_PD'
@@ -59,6 +60,22 @@ class BxuFrontApproachControllerNode(Node):
 
         self.timer = self.create_timer(self.action_dt, self._tick)
         self.get_logger().info('BXU front approach controller started — state=SEARCH')
+
+
+        self.declare_parameter('enable_control_services', False)
+
+        if self.get_parameter('enable_control_services').value:
+            self.start_service = self.create_service(
+                Trigger,
+                '/bxu/front_approach/start',
+                self._start_approach_service,
+            )
+
+            self.stop_service = self.create_service(
+                Trigger,
+                '/bxu/front_approach/stop',
+                self._stop_approach_service,
+            )
 
     def _declare_params(self):
         defaults = {
@@ -125,6 +142,31 @@ class BxuFrontApproachControllerNode(Node):
         self.blind_forward_ramp_transition_s = g('blind_forward_ramp_transition_s')
         self.blind_forward_detection_confirm_frames = g('blind_forward_detection_confirm_frames')
         self.blind_forward_timeout_s = g('blind_forward_timeout_s')
+
+    def _start_approach_service(self, request, response):
+        if self.enabled:
+            response.success = False
+            response.message = (
+                'Controller already enabled. '
+                'Stop first to start a fresh run.'
+            )
+            return response
+
+        self._enable_cb(Bool(data=True))
+
+        response.success = True
+        response.message = 'Front approach enabled.'
+        return response
+
+    def _stop_approach_service(self, request, response):
+        self._enable_cb(Bool(data=False))
+
+        # Explicitly send zero even if the controller was already disabled.
+        self._publish_zero()
+
+        response.success = True
+        response.message = 'Front approach disabled; zero velocity published.'
+        return response
 
     def _enable_cb(self, msg: Bool):
         was_enabled = self.enabled
@@ -347,12 +389,18 @@ class BxuFrontApproachControllerNode(Node):
             return
 
         t_elapsed = time.time() - self._blind_start_time
-        if t_elapsed > self.blind_forward_timeout_s:
+
+        simulation_mode = bool(
+            self.get_parameter('use_sim_time').value
+        )
+
+        if (not simulation_mode and t_elapsed > self.blind_forward_timeout_s):
             self._publish_zero()
             self.state = FAULT
             self._blind_start_time = None
             self._publish_status('FAULT')
             return
+
 
         base = self.blind_forward_speed_mps
         high_mult = self.blind_forward_ramp_high_mult

@@ -3,6 +3,7 @@ import socketserver
 import threading
 import time
 from http import server
+import traceback
 
 import cv2
 import numpy as np
@@ -10,7 +11,9 @@ import rclpy
 from ament_index_python.packages import get_package_share_directory
 from rclpy.node import Node
 from std_msgs.msg import Header
-
+from cv_bridge import CvBridge
+from sensor_msgs.msg import Image, CameraInfo
+from rclpy.qos import qos_profile_sensor_data
 from swas_msgs.msg import BxuAlignmentOutput
 
 
@@ -20,6 +23,15 @@ class BxuDockingVisionNode(Node):
 
         self.declare_parameter('alignment_topic', '/bxu/docking_vision/alignment')
         self.declare_parameter('frame_id', 'bxu_base_link')
+        self.declare_parameter('input_source', 'hardware')
+
+        self.declare_parameter('cam0_image_topic', '/bxu/docking_camera_0/image_raw')
+        self.declare_parameter('cam1_image_topic', '/bxu/docking_camera_1/image_raw')
+        self.declare_parameter('cam0_info_topic', '/bxu/docking_camera_0/camera_info')
+        self.declare_parameter('cam1_info_topic', '/bxu/docking_camera_1/camera_info')
+
+        self.declare_parameter('image_timeout_s', 0.5)
+        self.declare_parameter('publish_overlay_image', False)
 
         self.declare_parameter('cam_width', 640)
         self.declare_parameter('cam_height', 480)
@@ -124,17 +136,40 @@ class BxuDockingVisionNode(Node):
         self.get_logger().info(f'Cam1 calib: {self.cal_files[1]}')
         self.get_logger().info(f'Zero file: {self.zero_file}')
 
-        self._load_calibrations()
+
+
+        self.input_source = str(self.get_parameter('input_source').value).lower()
+        if self.input_source not in ('hardware', 'ros'):
+            raise ValueError(f'Invalid input_source: {self.input_source}, must be "hardware" or "ros"')
+
+        self.image_timeout_s = float(self.get_parameter('image_timeout_s').value)
+        if self.image_timeout_s <= 0.0:
+            raise ValueError(f'Invalid image_timeout_s: {self.image_timeout_s}, must be > 0.0')
+
+        self.publish_overlay_image = bool(self.get_parameter('publish_overlay_image').value)
+
+        self._capture_running = False
+        self._last_image_times = {0: None, 1: None}
+        self._processed_frames = {0: None, 1: None}
+
         self._setup_detector()
         self._setup_zero_offsets()
-        self._setup_cameras()
+
+        if self.input_source == 'hardware':
+            self._load_calibrations()
+            self._setup_cameras()
+
+            self._capture_running = True
+            self._capture_thread = threading.Thread(target=self._capture_loop, daemon=True)
+            self._capture_thread.start()
+
+        else:
+            self._setup_ros_inputs()
 
         if self.enable_mjpeg_stream:
             self._setup_mjpeg_stream()
 
-        self._capture_running = True
-        self._capture_thread = threading.Thread(target=self._capture_loop, daemon=True)
-        self._capture_thread.start()
+
 
         period_s = 1.0 / publish_rate_hz
         self.timer = self.create_timer(period_s, self._on_timer)
@@ -192,7 +227,12 @@ class BxuDockingVisionNode(Node):
             self.calibrations[i] = (new_mtx.astype(np.float32), dist.astype(np.float32))
 
     def _setup_detector(self):
-        self.aruco_params = cv2.aruco.DetectorParameters_create()
+
+        if hasattr(cv2.aruco, 'DetectorParameters_create'):
+            self.aruco_params = cv2.aruco.DetectorParameters_create()
+        else:
+            self.aruco_params = cv2.aruco.DetectorParameters()
+
         self.aruco_params.adaptiveThreshWinSizeMin = int(
             self.get_parameter('adaptive_thresh_win_size_min').value
         )
@@ -210,7 +250,12 @@ class BxuDockingVisionNode(Node):
         )
         self.aruco_params.cornerRefinementMethod = cv2.aruco.CORNER_REFINE_SUBPIX
 
-        self.aruco_dict = cv2.aruco.Dictionary_get(self.aruco_dict_const)
+        self.aruco_dict = cv2.aruco.getPredefinedDictionary(self.aruco_dict_const)
+
+        if hasattr(cv2.aruco, 'ArucoDetector'):
+            self.aruco_detector = cv2.aruco.ArucoDetector(self.aruco_dict, self.aruco_params)
+        else:
+            self.aruco_detector = None
 
         clip_limit = float(self.get_parameter('clahe_clip_limit').value)
         tile_grid_vals = self.get_parameter('clahe_tile_grid').value
@@ -252,6 +297,188 @@ class BxuDockingVisionNode(Node):
             f'({actual_w:.0f}x{actual_h:.0f} @ {actual_fps:.1f} fps)'
         )
         return cap
+
+
+    def _setup_ros_inputs(self):
+        self.bridge = CvBridge()
+        self.calibrations = {}
+        self.undist_maps = {}
+
+        self.overlay_pubs = {}
+
+        if self.publish_overlay_image:
+            overlay_qos = qos_profile_sensor_data
+            overlay_qos.reliability = (
+                rclpy.qos.QoSReliabilityPolicy.RELIABLE
+            )
+
+            for index in (0, 1):
+                self.overlay_pubs[index] = self.create_publisher(
+                    Image,
+                    f'/bxu/docking_camera_{index}/overlay',
+                    overlay_qos,
+                )
+
+        self.camera_info_subs = []
+        self.image_subs = []
+
+        for index in (0, 1):
+            info_topic = str(
+                self.get_parameter(
+                    f'cam{index}_info_topic'
+                ).value
+            )
+            image_topic = str(
+                self.get_parameter(
+                    f'cam{index}_image_topic'
+                ).value
+            )
+
+            self.camera_info_subs.append(
+                self.create_subscription(
+                    CameraInfo,
+                    info_topic,
+                    lambda msg, i=index: self._ros_camera_info_cb(msg, i),
+                    qos_profile_sensor_data,
+                )
+            )
+
+            self.image_subs.append(
+                self.create_subscription(
+                    Image,
+                    image_topic,
+                    lambda msg, i=index: self._ros_image_cb(msg, i),
+                    qos_profile_sensor_data,
+                )
+            )
+
+            self.get_logger().info(
+                f'Camera {index} ROS input: {image_topic}; '
+                f'camera info: {info_topic}'
+            )
+
+
+    def _ros_camera_info_cb(self, msg, cam_idx):
+        if msg.width != self.width or msg.height != self.height:
+            self.get_logger().error(
+                f'Camera {cam_idx}: CameraInfo is '
+                f'{msg.width}x{msg.height}, expected '
+                f'{self.width}x{self.height}.'
+            )
+            return
+
+        matrix = np.asarray(
+            msg.k,
+            dtype=np.float64,
+        ).reshape(3, 3)
+
+        if (
+            not np.all(np.isfinite(matrix))
+            or matrix[0, 0] <= 0.0
+            or matrix[1, 1] <= 0.0
+        ):
+            return
+
+        distortion = np.asarray(
+            msg.d,
+            dtype=np.float64,
+        )
+
+        if not np.all(np.isfinite(distortion)):
+            return
+
+        # This ROS acquisition path currently supports the ideal,
+        # zero-distortion cameras configured in Gazebo.
+        if np.any(np.abs(distortion) > 1e-9):
+            self.get_logger().error(
+                f'Camera {cam_idx}: this ROS input mode expects '
+                'zero-distortion simulated images.'
+            )
+            return
+
+        first_info = cam_idx not in self.calibrations
+
+        self.calibrations[cam_idx] = (
+            matrix.copy(),
+            np.zeros((5, 1), dtype=np.float64),
+        )
+
+        if first_info:
+            self.get_logger().info(
+                f'Camera {cam_idx} ready: '
+                f'fx={matrix[0, 0]:.2f}, '
+                f'fy={matrix[1, 1]:.2f}, '
+                f'cx={matrix[0, 2]:.2f}, '
+                f'cy={matrix[1, 2]:.2f}'
+            )
+
+
+    def _ros_image_cb(self, msg, cam_idx):
+        if cam_idx not in self.calibrations:
+            return
+
+        try:
+            frame = self.bridge.imgmsg_to_cv2(
+                msg,
+                desired_encoding='bgr8',
+            )
+
+            if frame.shape[:2] != (self.height, self.width):
+                raise ValueError(
+                    f'Image shape {frame.shape[:2]} does not match '
+                    f'{(self.height, self.width)}.'
+                )
+
+            processed, error = self._process_and_track(
+                frame,
+                cam_idx,
+            )
+
+            now = self.get_clock().now().nanoseconds / 1e9
+
+            with self._errors_lock:
+                self._latest_errors[cam_idx] = error
+                self._last_image_times[cam_idx] = now
+
+            self._processed_frames[cam_idx] = processed
+
+            if cam_idx in self.overlay_pubs:
+                overlay_msg = Image()
+                overlay_msg.header = msg.header
+                overlay_msg.height = int(processed.shape[0])
+                overlay_msg.width = int(processed.shape[1])
+                overlay_msg.encoding = 'bgr8'
+                overlay_msg.is_bigendian = 0
+                overlay_msg.step = 3 * overlay_msg.width
+                overlay_msg.data = processed.tobytes()
+
+                self.overlay_pubs[cam_idx].publish(overlay_msg)
+
+            if (
+                self.enable_mjpeg_stream
+                and self._processed_frames[0] is not None
+                and self._processed_frames[1] is not None
+            ):
+                combined = np.hstack((
+                    self._processed_frames[0],
+                    self._processed_frames[1],
+                ))
+                ok, jpg = cv2.imencode('.jpg', combined)
+
+                if ok:
+                    with self._frame_lock:
+                        self._frame = jpg.tobytes()
+
+        except Exception:
+            with self._errors_lock:
+                self._latest_errors[cam_idx] = None
+
+            self.get_logger().error(
+                f'Camera {cam_idx} ROS processing failed:\n'
+                f'{traceback.format_exc()}'
+            )
+
+
 
     def _setup_cameras(self):
         self.cameras = {
@@ -305,17 +532,42 @@ class BxuDockingVisionNode(Node):
         cx, cy = float(mtx[0, 2]), float(mtx[1, 2])
         cxi, cyi = int(round(cx)), int(round(cy))
 
-        mapx, mapy = self.undist_maps[cam_idx]
-        gray = cv2.remap(cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2GRAY), mapx, mapy, cv2.INTER_LINEAR)
-        bgr = cv2.remap(frame_bgr, mapx, mapy, cv2.INTER_LINEAR)
+        if self.input_source == 'ros':
+            bgr = frame_bgr.copy()
+            gray = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2GRAY)
+        else:
+            mapx, mapy = self.undist_maps[cam_idx]
+
+            gray = cv2.remap(cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2GRAY), mapx, mapy, cv2.INTER_LINEAR)
+            bgr = cv2.remap(frame_bgr, mapx, mapy, cv2.INTER_LINEAR)
+
         gray = self.clahe.apply(gray)
 
         error = None
 
-        corners, ids, _ = cv2.aruco.detectMarkers(
-            gray,
-            self.aruco_dict,
-            parameters=self.aruco_params
+        if self.aruco_detector is not None:
+            corners, ids, _ = self.aruco_detector.detectMarkers(gray)
+        else:
+            corners, ids, _ = cv2.aruco.detectMarkers(
+                gray,
+                self.aruco_dict,
+                parameters=self.aruco_params,
+            )
+            
+        if ids is not None:
+            cv2.aruco.drawDetectedMarkers(
+                bgr,
+                corners,
+                ids,
+            )
+
+        cv2.drawMarker(
+            bgr,
+            (cxi, cyi),
+            (0, 255, 255),
+            markerType=cv2.MARKER_CROSS,
+            markerSize=15,
+            thickness=1,
         )
 
         if ids is not None and len(ids) > 0:
@@ -324,13 +576,46 @@ class BxuDockingVisionNode(Node):
                 if int(m_id) != target_id:
                     continue
 
-                rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(
-                    [corners[i]], self.marker_size_mm, mtx, dist
-                )
-                if rvecs is None or tvecs is None:
-                    break
+                if hasattr(cv2.aruco, 'estimatePoseSingleMarkers'):
+                    rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(
+                        [corners[i]],
+                        self.marker_size_mm,
+                        mtx,
+                        dist,
+                    )
 
-                tvec = tvecs[0][0]
+                    if rvecs is None or tvecs is None:
+                        break
+
+                    tvec = tvecs[0][0]
+                else:
+                    marker_half_mm = self.marker_size_mm / 2.0
+
+                    object_points = np.array([
+                        [-marker_half_mm,  marker_half_mm, 0.0],
+                        [ marker_half_mm,  marker_half_mm, 0.0],
+                        [ marker_half_mm, -marker_half_mm, 0.0],
+                        [-marker_half_mm, -marker_half_mm, 0.0],
+                    ], dtype=np.float32)
+
+                    image_points = corners[i].reshape(
+                        4,
+                        2,
+                    ).astype(np.float32)
+
+                    success, rvec, tvec = cv2.solvePnP(
+                        object_points,
+                        image_points,
+                        mtx,
+                        dist,
+                        flags=cv2.SOLVEPNP_IPPE_SQUARE,
+                    )
+
+                    if not success or tvec is None:
+                        break
+
+                    tvec = tvec.reshape(3)
+
                 z = float(tvec[2])
                 if not np.isfinite(z) or z <= 0.0:
                     break
@@ -387,7 +672,25 @@ class BxuDockingVisionNode(Node):
 
     def _get_errors(self):
         with self._errors_lock:
-            return self._latest_errors[0], self._latest_errors[1]
+            errors = [
+                self._latest_errors[0],
+                self._latest_errors[1],
+            ]
+
+            if self.input_source == 'ros':
+                now = self.get_clock().now().nanoseconds / 1e9
+
+                for index in (0, 1):
+                    last_time = self._last_image_times[index]
+
+                    if (
+                        last_time is None
+                        or now < last_time
+                        or now - last_time > self.image_timeout_s
+                    ):
+                        errors[index] = None
+
+            return errors[0], errors[1]
 
     def _compute_fusion(self, err0, err1):
         if err0 is None and err1 is None:
