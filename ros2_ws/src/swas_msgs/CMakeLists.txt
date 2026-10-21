@@ -31,6 +31,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/BxuAlignmentOutput.msg"
   "msg/MarkerDetection.msg"
   "msg/MarkerDetectionArray.msg"
+  "msg/BxuFrontYoloObservation.msg"
   DEPENDENCIES std_msgs geometry_msgs
 )
 

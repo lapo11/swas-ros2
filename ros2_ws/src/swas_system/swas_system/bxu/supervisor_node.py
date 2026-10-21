@@ -1,158 +1,10 @@
-# import rclpy
-# from rclpy.node import Node
-# from std_msgs.msg import String, Bool
-# from geometry_msgs.msg import Twist
-
-
-# WAITING = 'WAITING'
-# FRONT_APPROACH = 'FRONT_APPROACH'
-# DOCKING_ALIGN = 'DOCKING_ALIGN'
-# READY_TO_LIFT = 'READY_TO_LIFT'
-# FAULT = 'FAULT'
-
-
-# class BxuSupervisorNode(Node):
-#     def __init__(self):
-#         super().__init__('bxu_supervisor_node')
-
-#         self.declare_parameter('front_status_topic', '/bxu/front_approach/controller_status')
-#         self.declare_parameter('dock_status_topic', '/bxu/docking/controller_status')
-#         self.declare_parameter('supervisor_state_topic', '/bxu/supervisor/state')
-#         self.declare_parameter('front_enable_topic', '/bxu/front_controller/enabled')
-#         self.declare_parameter('dock_enable_topic', '/bxu/docking_controller/enabled')
-#         self.declare_parameter('cmd_vel_topic', '/bxu/cmd_vel')
-#         self.declare_parameter('auto_start', True)
-
-#         front_status_topic = self.get_parameter('front_status_topic').value
-#         dock_status_topic = self.get_parameter('dock_status_topic').value
-#         supervisor_state_topic = self.get_parameter('supervisor_state_topic').value
-#         front_enable_topic = self.get_parameter('front_enable_topic').value
-#         dock_enable_topic = self.get_parameter('dock_enable_topic').value
-#         cmd_vel_topic = self.get_parameter('cmd_vel_topic').value
-#         auto_start = bool(self.get_parameter('auto_start').value)
-
-#         self.state_pub = self.create_publisher(String, supervisor_state_topic, 10)
-#         self.front_enable_pub = self.create_publisher(Bool, front_enable_topic, 10)
-#         self.dock_enable_pub = self.create_publisher(Bool, dock_enable_topic, 10)
-#         self.cmd_vel_pub = self.create_publisher(Twist, cmd_vel_topic, 10)
-
-#         self.front_status_sub = self.create_subscription(String, front_status_topic, self._front_status_cb, 10)
-#         self.dock_status_sub = self.create_subscription(String, dock_status_topic, self._dock_status_cb, 10)
-
-#         self.front_status = ''
-#         self.dock_status = ''
-#         self.state = WAITING
-
-#         self.timer = self.create_timer(0.2, self._tick)
-
-#         if auto_start:
-#             self._set_state(FRONT_APPROACH)
-#         else:
-#             self._set_state(WAITING)
-
-#         self.get_logger().info('BXU supervisor node started.')
-
-#     def _publish_bool(self, pub, value: bool):
-#         msg = Bool()
-#         msg.data = value
-#         pub.publish(msg)
-
-#     def _publish_state(self):
-#         msg = String()
-#         msg.data = self.state
-#         self.state_pub.publish(msg)
-
-#     def _publish_zero(self):
-#         self.cmd_vel_pub.publish(Twist())
-
-#     def _set_state(self, new_state: str):
-#         if new_state != self.state:
-#             self.get_logger().info(f'{self.state} -> {new_state}')
-#             self.state = new_state
-#         self._publish_state()
-
-#     def _front_status_cb(self, msg: String):
-#         self.front_status = msg.data
-
-#     def _dock_status_cb(self, msg: String):
-#         self.dock_status = msg.data
-
-#     def _tick(self):
-#         if self.state == WAITING:
-#             self._publish_bool(self.front_enable_pub, False)
-#             self._publish_bool(self.dock_enable_pub, False)
-#             self._publish_zero()
-#             self._publish_state()
-#             return
-
-#         if self.state == FRONT_APPROACH:
-#             self._publish_bool(self.front_enable_pub, True)
-#             self._publish_bool(self.dock_enable_pub, False)
-#             self._publish_state()
-
-#             if self.front_status == 'DONE':
-#                 self._publish_zero()
-#                 self._set_state(DOCKING_ALIGN)
-#                 return
-
-#             if self.front_status == 'FAULT':
-#                 self._publish_zero()
-#                 self._set_state(FAULT)
-#                 return
-
-#             return
-
-#         if self.state == DOCKING_ALIGN:
-#             self._publish_bool(self.front_enable_pub, False)
-#             self._publish_bool(self.dock_enable_pub, True)
-#             self._publish_state()
-
-#             if self.dock_status == 'DOCKED':
-#                 self._publish_zero()
-#                 self._set_state(READY_TO_LIFT)
-#                 return
-
-#             if self.dock_status == 'LOST':
-#                 self._publish_zero()
-#                 self._set_state(FAULT)
-#                 return
-
-#             return
-
-#         if self.state == READY_TO_LIFT:
-#             self._publish_bool(self.front_enable_pub, False)
-#             self._publish_bool(self.dock_enable_pub, False)
-#             self._publish_zero()
-#             self._publish_state()
-#             return
-
-#         if self.state == FAULT:
-#             self._publish_bool(self.front_enable_pub, False)
-#             self._publish_bool(self.dock_enable_pub, False)
-#             self._publish_zero()
-#             self._publish_state()
-#             return
-
-
-# def main(args=None):
-#     rclpy.init(args=args)
-#     node = BxuSupervisorNode()
-#     try:
-#         rclpy.spin(node)
-#     except KeyboardInterrupt:
-#         pass
-#     finally:
-#         node.destroy_node()
-#         rclpy.shutdown()
-
-
 import threading
 
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String, Bool
 from geometry_msgs.msg import Twist
-
+from std_srvs.srv import Trigger
 
 WAITING = 'WAITING'
 FRONT_APPROACH = 'FRONT_APPROACH'
@@ -169,6 +21,11 @@ FAULT = 'FAULT'
 class BxuSupervisorNode(Node):
     def __init__(self):
         super().__init__('bxu_supervisor_node')
+
+        self.simulation_mode = bool(self.get_parameter('use_sim_time').value)
+
+        self._start_pending = False
+        self._start_wait_ticks = 0
 
         self.declare_parameter('front_status_topic', '/bxu/front_approach/controller_status')
         self.declare_parameter('dock_status_topic', '/bxu/docking/controller_status')
@@ -222,6 +79,23 @@ class BxuSupervisorNode(Node):
         self._input_thread = None
         self._drive_away_start_time = None
 
+        if self.simulation_mode:
+            self.start_service = self.create_service(
+                Trigger,
+                '/bxu/supervisor/start',
+                self._start_demo_cb,
+            )
+            self.stop_service = self.create_service(
+                Trigger,
+                '/bxu/supervisor/stop',
+                self._stop_demo_cb,
+            )
+            self.confirm_service = self.create_service(
+                Trigger,
+                '/bxu/supervisor/confirm',
+                self._confirm_demo_cb,
+            )
+
         self.timer = self.create_timer(0.2, self._tick)
 
         if auto_start:
@@ -270,19 +144,134 @@ class BxuSupervisorNode(Node):
     # --- User input handling (non-blocking for the ROS executor) --------
 
     def _start_user_wait(self, prompt: str):
-        """Spawn a background thread that blocks on input() and sets an Event when done."""
         self._user_confirmed.clear()
 
+        if self.simulation_mode:
+            # Non-None marker: the existing state machine will not
+            # initialise this wait repeatedly.
+            self._input_thread = True
+
+            self.get_logger().info(
+                f'{self.state}: call /bxu/supervisor/confirm to continue.'
+            )
+            return
+
+        # Existing hardware behaviour: wait for Enter.
         def _wait():
             input(prompt)
             self._user_confirmed.set()
 
-        self._input_thread = threading.Thread(target=_wait, daemon=True)
+        self._input_thread = threading.Thread(
+            target=_wait,
+            daemon=True,
+        )
         self._input_thread.start()
+    # --- Demo control services --------------------------------------------
+
+    def _disable_controllers(self):
+        self._publish_bool(self.front_enable_pub, False)
+        self._publish_bool(self.dock_enable_pub, False)
+        self._publish_zero()
+
+
+    def _clear_demo_runtime(self):
+        self.front_status = ''
+        self.dock_status = ''
+        self.lift_state = ''
+
+        self._lift_cmd_sent = False
+        self._lower_cmd_sent = False
+        self._drive_away_start_time = None
+
+        self._input_thread = None
+        self._user_confirmed.clear()
+
+
+    def _start_demo_cb(self, request, response):
+        if self.state != WAITING or self._start_pending:
+            response.success = False
+            response.message = (
+                'Demo is running, starting, or finished. '
+                'Call /bxu/supervisor/stop before starting again.'
+            )
+            return response
+
+        self._clear_demo_runtime()
+        self._disable_controllers()
+
+        # Allow the controllers to receive disable messages and reset
+        # before beginning another run.
+        self._start_pending = True
+        self._start_wait_ticks = 3
+
+        response.success = True
+        response.message = 'Demo start accepted.'
+        return response
+
+
+    def _stop_demo_cb(self, request, response):
+        self._start_pending = False
+        self._start_wait_ticks = 0
+
+        self._clear_demo_runtime()
+        self._set_state(WAITING)
+        self._disable_controllers()
+
+        response.success = True
+        response.message = (
+            'Demo stopped. Controller disable and zero velocity requested.'
+        )
+        return response
+
+
+    def _confirm_demo_cb(self, request, response):
+        if self.state not in (
+            WAIT_USER_AFTER_LIFT,
+            WAIT_USER_AFTER_LOWER,
+        ):
+            response.success = False
+            response.message = (
+                f'No confirmation expected in state {self.state}.'
+            )
+            return response
+
+        if self._user_confirmed.is_set():
+            response.success = False
+            response.message = 'Confirmation already accepted.'
+            return response
+
+        # A service call may arrive before the first tick of this
+        # wait state. Initialise the wait before setting its event.
+        if self._input_thread is None:
+            self._start_user_wait('')
+
+        self._user_confirmed.set()
+
+        response.success = True
+        response.message = f'Confirmation accepted in {self.state}.'
+        return response
 
     # --- Main state machine ----------------------------------------------
 
     def _tick(self):
+
+        if self.simulation_mode and self._start_pending:
+            self._disable_controllers()
+            self._publish_state()
+
+            self._start_wait_ticks -= 1
+
+            if self._start_wait_ticks <= 0:
+                self._start_pending = False
+
+                # Discard statuses received during the reset interval.
+                self.front_status = ''
+                self.dock_status = ''
+
+                self._set_state(FRONT_APPROACH)
+
+            return
+        
         if self.state == WAITING:
             self._publish_bool(self.front_enable_pub, False)
             self._publish_bool(self.dock_enable_pub, False)
