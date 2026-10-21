@@ -1,0 +1,36 @@
+export const TOPICS = [
+  ['mission','/bxu/supervisor/state','Mission supervisor'],
+  ['frontStatus','/bxu/front_approach/controller_status','Approach controller'],
+  ['dockStatus','/bxu/docking/controller_status','Docking controller'],
+  ['frontEnabled','/bxu/front_controller/enabled','Approach enabled signal'],
+  ['dockEnabled','/bxu/docking_controller/enabled','Docking enabled signal'],
+  ['lift','/bxu_battery_lift/state','BXU battery lift'],
+  ['odom','/bxu/odom','BXU odometry'],
+  ['cmd','/bxu/cmd_vel','Velocity requests'],
+  ['clock','/clock','Simulation clock'],
+  ['frontMarker','/bxu/front_vision/alignment','Front marker alignment'],
+  ['frontYolo','/bxu/front_yolo_vision/alignment','Front YOLO alignment'],
+  ['dock','/bxu/docking_vision/alignment','Docking alignment'],
+  ['diagnostics','/bxu/front_yolo_vision/diagnostics','YOLO report'],
+  ['bruLock','/bru/lock/status','BRU lock'],
+  ['bruSeated','/bru/battery_seated','BRU battery seating'],
+  ['bruJoints','/bru/joint_states','BRU simulated joints'],
+  ['gate','/swas/control/mode','Command gate'],
+];
+export const CAMERAS = [
+ ['front','Front camera','/bxu/front_camera/image_raw'],
+ ['markers','Front marker overlay','/bxu/front_vision/image_raw'],
+ ['yolo','Front YOLO view','/bxu/front_yolo_vision/image_raw'],
+ ['dock0','Docking camera 01','/bxu/docking_camera_0/image_raw'],
+ ['dock0Overlay','Docking 01 overlay','/bxu/docking_camera_0/overlay'],
+ ['dock1','Docking camera 02','/bxu/docking_camera_1/image_raw'],
+ ['dock1Overlay','Docking 02 overlay','/bxu/docking_camera_1/overlay'],
+];
+// Add workflows by declaring real service interfaces, not shell commands.
+export const WORKFLOWS = [
+ {id:'demo_markers',name:'demo_markers',description:'Run the connected supervisor: approach, dock, lift, lower and depart.',
+  stateKey:'mission',start:'/bxu/supervisor/start',confirm:'/bxu/supervisor/confirm',stop:'/bxu/supervisor/stop',
+  confirmationStates:{WAIT_USER_AFTER_LIFT:'Confirm lowering the battery plate',WAIT_USER_AFTER_LOWER:'Confirm reverse departure'},startStates:['WAITING']},
+ {id:'inspection',name:'Perception & controller inspection',description:'Observe approach and docking without sending mission commands.',stateKey:'mission'},
+];
+export const CONTROL={manual:'/swas/control/manual',auto:'/swas/control/auto',stop:'/swas/control/stop',teleop:'/bxu/teleop/cmd_vel'};

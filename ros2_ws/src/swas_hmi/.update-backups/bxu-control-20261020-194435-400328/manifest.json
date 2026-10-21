@@ -1,0 +1,37 @@
+[
+  {
+    "original": "/home/lapoveca/swas-ros2/swas-hmi/src/main.js",
+    "current": "/home/lapoveca/swas-ros2/swas-hmi/src/main.js",
+    "backup": "/home/lapoveca/swas-ros2/swas-hmi/.update-backups/bxu-control-20261020-194435-400328/0-main.js"
+  },
+  {
+    "original": "/home/lapoveca/swas-ros2/swas-hmi/src/config.js",
+    "current": "/home/lapoveca/swas-ros2/swas-hmi/src/config.js",
+    "backup": "/home/lapoveca/swas-ros2/swas-hmi/.update-backups/bxu-control-20261020-194435-400328/1-config.js"
+  },
+  {
+    "original": "/home/lapoveca/swas-ros2/swas-hmi/tools/gate_core.py",
+    "current": "/home/lapoveca/swas-ros2/swas-hmi/tools/gate_core.py",
+    "backup": "/home/lapoveca/swas-ros2/swas-hmi/.update-backups/bxu-control-20261020-194435-400328/2-gate_core.py"
+  },
+  {
+    "original": "/home/lapoveca/swas-ros2/swas-hmi/tools/swas_command_gate.py",
+    "current": "/home/lapoveca/swas-ros2/swas-hmi/tools/bxu_command_gate.py",
+    "backup": "/home/lapoveca/swas-ros2/swas-hmi/.update-backups/bxu-control-20261020-194435-400328/3-swas_command_gate.py"
+  },
+  {
+    "original": "/home/lapoveca/swas-ros2/swas-hmi/tools/prepare_sim_launch.py",
+    "current": "/home/lapoveca/swas-ros2/swas-hmi/tools/prepare_sim_launch.py",
+    "backup": "/home/lapoveca/swas-ros2/swas-hmi/.update-backups/bxu-control-20261020-194435-400328/4-prepare_sim_launch.py"
+  },
+  {
+    "original": "/home/lapoveca/swas-ros2/swas-hmi/tools/test_gate_core.py",
+    "current": "/home/lapoveca/swas-ros2/swas-hmi/tools/test_gate_core.py",
+    "backup": "/home/lapoveca/swas-ros2/swas-hmi/.update-backups/bxu-control-20261020-194435-400328/5-test_gate_core.py"
+  },
+  {
+    "original": "/home/lapoveca/swas-ros2/ros2_ws/src/swas_simulation/launch/swas_gate_demo_docking_bru_markers_sim.launch.py",
+    "current": "/home/lapoveca/swas-ros2/ros2_ws/src/swas_simulation/launch/bxu_gate_demo_docking_bru_markers_sim.launch.py",
+    "backup": "/home/lapoveca/swas-ros2/swas-hmi/.update-backups/bxu-control-20261020-194435-400328/6-swas_gate_demo_docking_bru_markers_sim.launch.py"
+  }
+]
