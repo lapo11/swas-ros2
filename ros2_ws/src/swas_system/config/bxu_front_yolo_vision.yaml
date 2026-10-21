@@ -1,0 +1,44 @@
+bxu_front_yolo_vision_node:
+  ros__parameters:
+    input_source: device
+    model_path: models/first_yolov8_24092026.onnx
+    camera_device: /dev/v4l/by-id/usb-openaicam_openaicam_5423534724-video-index0
+    calib_file: calib/front_cam_1280x720_calib.npz
+    frame_id: bxu_front_camera
+    frame_width: 1280
+    frame_height: 720
+    capture_fps: 30
+    publish_rate_hz: 15.0
+
+    # The verified ONNX input is statically [1, 3, 640, 640].
+    # CPU inference and rect=False are explicit in the node.
+    imgsz: 640
+    confidence_threshold: 0.20
+    inference_iou: 0.70
+    max_detections: 100
+
+    image_topic: /bxu/front_camera/image_raw
+    camera_info_topic: /bxu/front_camera/camera_info
+    output_image_topic: /bxu/front_yolo_vision/image_raw
+    diagnostics_topic: /bxu/front_yolo_vision/diagnostics
+    alignment_topic: /bxu/front_yolo_vision/alignment
+    publish_overlay_image: true
+
+    # Wall-time bounds: queued images/results must not silently become current.
+    max_frame_age_s: 1.0
+    stream_timeout_s: 1.0
+
+    dedup_iou: 0.4
+    car_pad_ratio: 0.05
+    ema_alpha: 0.2
+    car_weight: 0.03
+    history_length: 10
+    wheel_memory_frames: 15
+    wheel_memory_seconds: 1.5
+    center_memory_seconds: 1.5
+    wheel_gate_ratio: 0.30
+    primary_lost_frames: 20
+    primary_memory_seconds: 2.0
+    primary_switch_ratio: 1.5
+    primary_switch_frames: 15
+    fusion_memory_seconds: 1.5

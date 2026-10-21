@@ -1,0 +1,50 @@
+bxu_front_yolo_approach_controller_node:
+  ros__parameters:
+
+    observation_topic: /bxu/front_yolo_vision/observation
+    dock_alignment_topic: /bxu/docking_vision/alignment
+    cmd_vel_topic: /bxu/cmd_vel
+    status_topic: /bxu/front_approach/controller_status
+    enable_topic: /bxu/front_controller/enabled
+    acquire_window_s: 1.5
+
+    action_dt: 0.05
+    observation_stale_timeout_s: 1.0
+
+    search_omega_mps: 0.20
+    acquire_frames: 3
+
+    kp_lateral: 0.35
+    kd_lateral: 0.05
+    kp_yaw: 0.60
+    kd_yaw: 0.08
+
+    max_vy_mps: 0.08
+    max_omega_rad_s: 0.20
+
+    # Image-right is BXU -Y for the supplied front-camera optical transform.
+    lateral_command_sign: -1.0
+
+    # Validate this sign in simulation before hardware use.
+    yaw_command_sign: 1.0
+
+    approach_vx_mps: 0.05
+
+    lateral_tolerance: 0.03
+    yaw_tolerance_rad: 0.035
+
+    blind_edge: min_horizontal
+    blind_margin_ratio: 0.08
+    blind_entry_frames: 3
+    blind_entry_memory_s: 1.0
+    critical_margin_ratio: 0.03
+    no_target_timeout_s: 1.5
+
+    blind_forward_axis: x
+    blind_forward_speed_mps: 0.05
+    blind_forward_ramp_high_mult: 3.0
+    blind_forward_ramp_high_duration_s: 5.0
+    blind_forward_ramp_transition_s: 4.0
+    blind_forward_timeout_s: 25.0
+    blind_forward_detection_confirm_frames: 3
+    dock_observation_stale_timeout_s: 0.5
