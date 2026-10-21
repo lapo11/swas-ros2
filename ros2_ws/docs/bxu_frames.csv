@@ -1,0 +1,10 @@
+child_frame,parent_frame,x_m,y_m,z_m,roll_rad,pitch_rad,yaw_rad,source,confidence,notes
+front_camera_link,bxu_base_link,,,,,,,,
+dock_camera_0_link,bxu_base_link,,,,,,,,
+dock_camera_1_link,bxu_base_link,,,,,,,,
+bxu_docking_reference_frame,bxu_base_link,,,,,,,,
+front_left_wheel_link,bxu_base_link,,,,,,,,
+front_right_wheel_link,bxu_base_link,,,,,,,,
+rear_left_wheel_link,bxu_base_link,,,,,,,,
+rear_right_wheel_link,bxu_base_link,,,,,,,,
+battery_plate_link,bxu_base_link,,,,,,,,
