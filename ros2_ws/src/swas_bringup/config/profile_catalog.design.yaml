@@ -1,0 +1,50 @@
+# DESIGN CATALOG ONLY. No runtime manager loads or executes this file yet.
+# Old source launches below are evidence/reference, NOT commands to run atop a base.
+# No arbitrary shell commands, package names or file paths are accepted from HMI.
+schema_version: 1
+implementation: design_only
+profiles:
+  front_approach_markers:
+    label: Front approach - markers
+    compatible_scenes: [markers]
+    components: [front_marker_vision, front_marker_controller]
+    authority: exclusive_front_marker_controller
+    source_reference: docking_front_markers_approach_sim.launch.py
+    control_api: needs_current_controller_source_audit
+    state: planned
+  front_approach_yolo:
+    label: Front approach - YOLO
+    compatible_scenes: [tesla]
+    components: [front_yolo_vision, front_yolo_controller]
+    authority: exclusive_front_yolo_controller
+    source_reference: docking_tesla_yolo_approach_sim.launch.py
+    known_start_service: /bxu/front_yolo_approach/start
+    known_stop_service: /bxu/front_yolo_approach/stop
+    state: planned
+  demo_markers:
+    label: Full marker exchange demo
+    compatible_scenes: [markers]
+    components: [front_marker_vision, docking_vision, front_marker_controller, docking_controller, marker_supervisor]
+    authority: supervisor_selects_one_controller_at_a_time
+    persistent_dependencies: [command_gate, lift_adapter]
+    source_reference: bxu_gate_demo_docking_bru_markers_sim.launch.py
+    known_start_service: /bxu/supervisor/start
+    known_confirm_service: /bxu/supervisor/confirm
+    known_stop_service: /bxu/supervisor/stop
+    state: first_managed_profile_candidate
+  docking_only:
+    label: Docking only
+    compatible_scenes: [markers]
+    components: [docking_vision, docking_controller]
+    authority: exclusive_docking_controller
+    source_reference: docking_docking_markers_dock_sim.launch.py
+    known_start_service: /bxu/docking_controller/start
+    stop_api: needs_current_controller_source_audit
+    start_pose_policy: must_be_in_valid_docking_observation_range
+    state: planned
+  demo_yolo:
+    label: Full YOLO-led exchange demo
+    compatible_scenes: []
+    candidate_components: [front_yolo_vision, front_yolo_controller, docking_vision, docking_controller, yolo_capable_supervisor]
+    state: blocked
+    reason: No uploaded full-YOLO workflow; Tesla plus docking-marker scene and phase handoff must be implemented and tested.
