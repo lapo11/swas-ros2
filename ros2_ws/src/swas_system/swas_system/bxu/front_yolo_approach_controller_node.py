@@ -149,9 +149,9 @@ class BxuFrontYoloApproachControllerNode(Node):
             # image-right corresponds to BXU -Y, while BXU +Y is left.
             'lateral_command_sign': -1.0,
 
-            # The physically correct sign must be validated in simulation.
-            # Positive means: positive wheel-line error requires positive omega.
-            'yaw_command_sign': 1.0,
+            # Validated in simulation: positive wheel-line error requires
+            # negative omega; negative wheel-line error requires positive omega.
+            'yaw_command_sign': -1.0, 
 
             # Forward motion is enabled only while both alignment features are
             # within tolerance. No metric distance is required.
@@ -555,7 +555,6 @@ class BxuFrontYoloApproachControllerNode(Node):
 
         if len(self._usable_acquisition_times) >= self.acquire_frames:
             self._reset_pd()
-            self._last_fresh_pair_time = now
             self.state = PD
             self._publish_status('PD')
             return

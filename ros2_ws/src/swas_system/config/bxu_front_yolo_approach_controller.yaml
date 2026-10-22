@@ -26,7 +26,7 @@ bxu_front_yolo_approach_controller_node:
     lateral_command_sign: -1.0
 
     # Validate this sign in simulation before hardware use.
-    yaw_command_sign: 1.0
+    yaw_command_sign: -1.0
 
     approach_vx_mps: 0.05
 
