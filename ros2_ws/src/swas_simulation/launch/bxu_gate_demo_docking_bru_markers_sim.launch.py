@@ -202,7 +202,16 @@ def launch_setup(context):
         }],
     )
     
+    gate = Node(
+        package='swas_system',
+        executable='bxu_command_gate',
+        name='bxu_command_gate',
+        output='screen',
+        parameters=[{'use_sim_time': False}],
+    )
+
     runtime_nodes = [
+        gate,
         front_vision,
         docking_vision,
         front_controller,

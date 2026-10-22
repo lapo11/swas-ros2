@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>swas_hmi</name>
+  <version>0.3.0</version>
+  <description>Demo-independent local operator HMI bringup for SWAS.</description>
+  <maintainer email="lapo.veca@gmail.com">lapo11</maintainer>
+  <license>MIT</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>launch_xml</exec_depend>
+  <exec_depend>python3</exec_depend>
+  <exec_depend>rosbridge_server</exec_depend>
+  <exec_depend>web_video_server</exec_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

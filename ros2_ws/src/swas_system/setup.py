@@ -39,6 +39,7 @@ setup(
             'bxu_battery_lift_node = swas_system.bxu.battery_lift_node:main',
             'bxu_front_yolo_vision_node = swas_system.bxu.front_yolo_vision_node:main',
             'bxu_front_yolo_approach_controller_node = swas_system.bxu.front_yolo_approach_controller_node:main',
+            'bxu_command_gate = swas_system.bxu.command_gate_node:main',
         ],
     },
 )
