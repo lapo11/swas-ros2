@@ -1,12 +1,15 @@
 import time
 import math
 
+
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from std_msgs.msg import String, Bool
 from swas_msgs.msg import BxuAlignmentOutput
 from std_srvs.srv import Trigger
+from rclpy.qos import QoSProfile, DurabilityPolicy
+
 
 SEARCH = 'SEARCH'
 COARSE_PD = 'COARSE_PD'
@@ -18,15 +21,22 @@ DONE = 'DONE'
 FAULT = 'FAULT'
 
 
+
 class BxuFrontApproachControllerNode(Node):
     def __init__(self):
         super().__init__('bxu_front_approach_controller_node')
         self._declare_params()
         self._load_params()
 
+
         self.pub = self.create_publisher(Twist, '/bxu/cmd_vel', 10)
-        self.status_pub = self.create_publisher(String, '/bxu/front_approach/controller_status', 10)
+        self.status_pub = self.create_publisher(
+            String,
+            '/bxu/front_approach/controller_status',
+            QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL),
+        )
         self.enable_sub = self.create_subscription(Bool, '/bxu/front_controller/enabled', self._enable_cb, 10)
+
 
         self.sub = self.create_subscription(
             BxuAlignmentOutput, '/bxu/front_vision/alignment', self._alignment_cb, 10
@@ -35,11 +45,13 @@ class BxuFrontApproachControllerNode(Node):
             BxuAlignmentOutput, '/bxu/docking_vision/alignment', self._dock_alignment_cb, 10
         )
 
+
         self.enabled = False
         self._latest_msg = None
         self._latest_time = 0.0
         self._latest_dock_msg = None
         self._latest_dock_time = 0.0
+
 
         self.state = SEARCH
         self._last_fine_time = None
@@ -58,11 +70,14 @@ class BxuFrontApproachControllerNode(Node):
         self._done_zero_sent = False
         self._fault_logged = False
 
+
         self.timer = self.create_timer(self.action_dt, self._tick)
         self.get_logger().info('BXU front approach controller started — state=SEARCH')
 
 
+
         self.declare_parameter('enable_control_services', False)
+
 
         if self.get_parameter('enable_control_services').value:
             self.start_service = self.create_service(
@@ -71,11 +86,16 @@ class BxuFrontApproachControllerNode(Node):
                 self._start_approach_service,
             )
 
+
             self.stop_service = self.create_service(
                 Trigger,
                 '/bxu/front_approach/stop',
                 self._stop_approach_service,
             )
+
+
+        self._publish_status('INACTIVE')
+        self.status_timer = self.create_timer(1.0, self._publish_current_status)
 
     def _declare_params(self):
         defaults = {
@@ -103,6 +123,7 @@ class BxuFrontApproachControllerNode(Node):
         }
         for k, v in defaults.items():
             self.declare_parameter(k, v)
+
 
     def _load_params(self):
         g = lambda k: self.get_parameter(k).value
@@ -143,6 +164,7 @@ class BxuFrontApproachControllerNode(Node):
         self.blind_forward_detection_confirm_frames = g('blind_forward_detection_confirm_frames')
         self.blind_forward_timeout_s = g('blind_forward_timeout_s')
 
+
     def _start_approach_service(self, request, response):
         if self.enabled:
             response.success = False
@@ -152,21 +174,27 @@ class BxuFrontApproachControllerNode(Node):
             )
             return response
 
+
         self._enable_cb(Bool(data=True))
+
 
         response.success = True
         response.message = 'Front approach enabled.'
         return response
 
+
     def _stop_approach_service(self, request, response):
         self._enable_cb(Bool(data=False))
+
 
         # Explicitly send zero even if the controller was already disabled.
         self._publish_zero()
 
+
         response.success = True
         response.message = 'Front approach disabled; zero velocity published.'
         return response
+
 
     def _enable_cb(self, msg: Bool):
         was_enabled = self.enabled
@@ -178,6 +206,7 @@ class BxuFrontApproachControllerNode(Node):
         elif (not was_enabled) and self.enabled:
             self._reset_runtime_state()
             self._publish_status('ACTIVE')
+
 
     def _reset_runtime_state(self):
         self.state = SEARCH
@@ -197,18 +226,26 @@ class BxuFrontApproachControllerNode(Node):
         self._done_zero_sent = False
         self._fault_logged = False
 
+
+    def _publish_current_status(self):
+        self._publish_status('INACTIVE' if not self.enabled else self.state)
+
+
     def _publish_status(self, text: str):
         msg = String()
         msg.data = text
         self.status_pub.publish(msg)
 
+
     def _alignment_cb(self, msg: BxuAlignmentOutput):
         self._latest_msg = msg
         self._latest_time = time.time()
 
+
     def _dock_alignment_cb(self, msg: BxuAlignmentOutput):
         self._latest_dock_msg = msg
         self._latest_dock_time = time.time()
+
 
     def _get_obs(self):
         if self._latest_msg is None:
@@ -223,6 +260,7 @@ class BxuFrontApproachControllerNode(Node):
         dist_cm = m.distance_m * 100.0 if m.distance_m >= 0.0 else None
         return True, m.num_markers_detected, yaw_deg, lat_cm, dist_cm
 
+
     def _get_dock_marker_seen(self):
         if self._latest_dock_msg is None:
             return False
@@ -230,6 +268,7 @@ class BxuFrontApproachControllerNode(Node):
             return False
         m = self._latest_dock_msg
         return bool(m.markers_detected) and m.num_markers_detected >= 1
+
 
     def _fine_aligned(self, yaw_deg, lat_cm, dist_cm):
         if yaw_deg is None or lat_cm is None or dist_cm is None:
@@ -240,10 +279,12 @@ class BxuFrontApproachControllerNode(Node):
             dist_cm <= self.near_visible_distance_cm
         )
 
+
     def _recent_fine(self):
         if self._last_fine_time is None:
             return False
         return (time.time() - self._last_fine_time) <= self.fine_memory_timeout_s
+
 
     def _publish(self, vx, vy, omega):
         t = Twist()
@@ -252,8 +293,10 @@ class BxuFrontApproachControllerNode(Node):
         t.angular.z = omega
         self.pub.publish(t)
 
+
     def _publish_zero(self):
         self._publish(0.0, 0.0, 0.0)
+
 
     def _decide(self, state, valid, num_markers, yaw_deg, lat_cm, dist_cm):
         if state == SEARCH:
@@ -265,12 +308,14 @@ class BxuFrontApproachControllerNode(Node):
                 return FINE_YAW, 'HOLD'
             return COARSE_PD, 'HOLD'
 
+
         if state == FINE_YAW:
             if not valid:
                 return (BLIND_FORWARD, 'HOLD') if self._recent_fine() else (SEARCH, 'HOLD')
             if abs(yaw_deg) > self.yaw_fine_deg:
                 return FINE_YAW, ('ROTATE_RIGHT_FINE' if yaw_deg > 0 else 'ROTATE_LEFT_FINE')
             return FINE_LATERAL, 'HOLD'
+
 
         if state == FINE_LATERAL:
             if not valid:
@@ -280,6 +325,7 @@ class BxuFrontApproachControllerNode(Node):
             if abs(lat_cm) > self.lat_fine_cm:
                 return FINE_LATERAL, ('SLIDE_RIGHT_FINE' if lat_cm > 0 else 'SLIDE_LEFT_FINE')
             return APPROACH_FINE, 'HOLD'
+
 
         if state == APPROACH_FINE:
             if not valid:
@@ -294,12 +340,15 @@ class BxuFrontApproachControllerNode(Node):
                 return BLIND_FORWARD, 'HOLD'
             return APPROACH_FINE, 'FORWARD_FINE'
 
+
         return DONE, 'HOLD'
+
 
     def _start_pulse(self, vx, vy, omega, duration_s):
         self._pulse_active = True
         self._pulse_cmd = (vx, vy, omega)
         self._pulse_end = time.time() + duration_s
+
 
     def _execute_action(self, action):
         if action == 'HOLD':
@@ -317,6 +366,7 @@ class BxuFrontApproachControllerNode(Node):
         elif action == 'FORWARD_FINE':
             self._start_pulse(+self.fine_forward_speed, 0.0, 0.0, self.fine_forward_pulse_s)
 
+
     def _tick_coarse_pd(self, valid, num_markers, yaw_deg, lat_cm, dist_cm):
         if not valid:
             self._publish_zero()
@@ -324,6 +374,7 @@ class BxuFrontApproachControllerNode(Node):
             self.state = SEARCH
             self._publish_status('SEARCH')
             return
+
 
         if (
             abs(yaw_deg) <= self.yaw_approach_deg and
@@ -336,33 +387,41 @@ class BxuFrontApproachControllerNode(Node):
             self._publish_status('FINE_YAW')
             return
 
+
         if dist_cm is None:
             self._publish_zero()
             return
+
 
         raw_dyaw = 0.0 if self._prev_yaw is None else (yaw_deg - self._prev_yaw) / self.action_dt
         self._dyaw = 0.8 * self._dyaw + 0.2 * raw_dyaw
         self._prev_yaw = yaw_deg
 
+
         raw_dlat = 0.0 if self._prev_lat is None else (lat_cm - self._prev_lat) / self.action_dt
         self._dlat = 0.8 * self._dlat + 0.2 * raw_dlat
         self._prev_lat = lat_cm
 
+
         dist_err = dist_cm - self.near_visible_distance_cm
+
 
         omega = max(min(-(self.coarse_kp_yaw * yaw_deg + self.coarse_kd_yaw * self._dyaw), self.coarse_max_omega), -self.coarse_max_omega)
         vy = max(min(-(self.coarse_kp_lat * lat_cm + self.coarse_kd_lat * self._dlat), self.coarse_max_vy), -self.coarse_max_vy)
         vx = max(min(self.coarse_kp_dist * dist_err, self.coarse_max_vx), 0.0)
 
+
         if 0 < abs(omega) < self.coarse_min_omega:
             omega = self.coarse_min_omega if omega > 0 else -self.coarse_min_omega
         if 0 < abs(vy) < self.coarse_min_vy:
             vy = self.coarse_min_vy if vy > 0 else -self.coarse_min_vy
-        if 0 < vx < self.coarse_min_vx:
+        if 0 < abs(vx) < self.coarse_min_vx:
             vx = self.coarse_min_vx
+
 
         self._publish(vx, vy, omega)
         self._publish_status('COARSE_PD')
+
 
     def _reset_coarse_pd(self):
         self._prev_yaw = None
@@ -370,16 +429,19 @@ class BxuFrontApproachControllerNode(Node):
         self._dyaw = 0.0
         self._dlat = 0.0
 
+
     def _tick_blind_forward(self):
         if self._blind_start_time is None:
             self._blind_start_time = time.time()
             self._blind_confirm_count = 0
             self._publish_status('BLIND_FORWARD')
 
+
         if self._get_dock_marker_seen():
             self._blind_confirm_count += 1
         else:
             self._blind_confirm_count = 0
+
 
         if self._blind_confirm_count >= self.blind_forward_detection_confirm_frames:
             self._publish_zero()
@@ -388,11 +450,14 @@ class BxuFrontApproachControllerNode(Node):
             self._publish_status('DONE')
             return
 
+
         t_elapsed = time.time() - self._blind_start_time
+
 
         simulation_mode = bool(
             self.get_parameter('use_sim_time').value
         )
+
 
         if (not simulation_mode and t_elapsed > self.blind_forward_timeout_s):
             self._publish_zero()
@@ -402,10 +467,12 @@ class BxuFrontApproachControllerNode(Node):
             return
 
 
+
         base = self.blind_forward_speed_mps
         high_mult = self.blind_forward_ramp_high_mult
         t_high = self.blind_forward_ramp_high_duration_s
         t_trans = self.blind_forward_ramp_transition_s
+
 
         if t_elapsed < t_high:
             speed = high_mult * base
@@ -415,18 +482,23 @@ class BxuFrontApproachControllerNode(Node):
         else:
             speed = base
 
+
         vx = speed if self.blind_forward_axis == 'x' else 0.0
         vy = speed if self.blind_forward_axis == 'y' else 0.0
         self._publish(vx, vy, 0.0)
+
 
     def _tick(self):
         if not self.enabled:
             return
 
+
         valid, num_markers, yaw_deg, lat_cm, dist_cm = self._get_obs()
+
 
         if valid and self._fine_aligned(yaw_deg, lat_cm, dist_cm):
             self._last_fine_time = time.time()
+
 
         if self._pulse_active:
             if time.time() < self._pulse_end:
@@ -436,13 +508,16 @@ class BxuFrontApproachControllerNode(Node):
             self._publish_zero()
             return
 
+
         if self.state == COARSE_PD:
             self._tick_coarse_pd(valid, num_markers, yaw_deg, lat_cm, dist_cm)
             return
 
+
         if self.state == BLIND_FORWARD:
             self._tick_blind_forward()
             return
+
 
         if self.state == FAULT:
             self._publish_zero()
@@ -450,6 +525,7 @@ class BxuFrontApproachControllerNode(Node):
                 self._publish_status('FAULT')
                 self._fault_logged = True
             return
+
 
         if self.state == DONE:
             if not self._done_zero_sent:
@@ -460,7 +536,9 @@ class BxuFrontApproachControllerNode(Node):
                 self._done_logged = True
             return
 
+
         next_state, action = self._decide(self.state, valid, num_markers, yaw_deg, lat_cm, dist_cm)
+
 
         key = f'{self.state}->{next_state}:{action}'
         if key == self._confirm_key:
@@ -469,16 +547,20 @@ class BxuFrontApproachControllerNode(Node):
             self._confirm_key = key
             self._confirm_count = 1
 
+
         if self._confirm_count < self.confirm_frames:
             return
+
 
         self.state = next_state
         self._publish_status(self.state)
         self._execute_action(action)
 
+
     def destroy_node(self):
         self._publish_zero()
         super().destroy_node()
+
 
 
 def main(args=None):

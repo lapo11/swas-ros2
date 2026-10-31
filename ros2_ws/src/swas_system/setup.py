@@ -40,6 +40,12 @@ setup(
             'bxu_front_yolo_vision_node = swas_system.bxu.front_yolo_vision_node:main',
             'bxu_front_yolo_approach_controller_node = swas_system.bxu.front_yolo_approach_controller_node:main',
             'bxu_command_gate = swas_system.bxu.command_gate_node:main',
+            'bxu_platform_gate = swas_system.bxu.platform_gate_node:main',
+            'bxu_component_manager = swas_system.bxu.component_manager_node:main',
+            'bxu_vision_registry_manager = swas_system.bxu.vision_registry_manager_node:main',
+            'bxu_marker_approach_preparation_node = swas_system.bxu.marker_approach_preparation_node:main',
+            'bxu_marker_approach_operation_node = swas_system.bxu.marker_approach_operation_node:main',
+            'bxu_marker_approach_motion_relay_node = swas_system.bxu.marker_approach_motion_relay_node:main',
         ],
     },
 )

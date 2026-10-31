@@ -33,10 +33,22 @@ class GateCore:
         if mode == 'STOP':
             self.stop()
             return True, 'Command gate stopped. This does not cancel lift actuation.'
-        if mode not in ('AUTO', 'MANUAL'):
+        if mode not in ('AUTO', 'MANUAL', 'OPERATION'):
             return False, 'Unsupported mode'
         if not self.clock_ok(now):
             return False, 'An advancing simulation clock is required'
+        if mode == 'OPERATION':
+            operation = self.get('operation', now, 1.0)
+            if not isinstance(operation, dict) or operation.get('state') != 'ACTIVE':
+                return False, 'Marker-approach operation must be ACTIVE and recent'
+            if operation.get('motion_authorized') is not False:
+                return False, 'Marker-approach operation reports unexpected motion authorization'
+            lift = self.get('lift', now, 2.0)
+            if lift not in ('IDLE', 'LIFTED', 'LOWERED'):
+                return False, 'Lift state unavailable or in motion; operation authority refused'
+            self.mode, self.reason = mode, 'Marker-approach operation authorized'
+            self.vectors.clear()
+            return True, 'Marker-approach operation authorized. Fresh commands are required.'
         if self.get('mission', now) != 'WAITING':
             return False, 'Supervisor must report a recent WAITING state'
         if self.get('front', now) is not False or self.get('dock', now) is not False:
@@ -57,18 +69,31 @@ class GateCore:
     def output(self, now):
         if self.mode == 'STOP':
             return (0.0, 0.0, 0.0)
-        if not self.clock_ok(now) or self.get('mission', now) is None:
-            self.stop('Simulation clock or supervisor freshness lost')
+        if not self.clock_ok(now):
+            self.stop('Simulation clock freshness lost')
             return (0.0, 0.0, 0.0)
-        if self.mode == 'MANUAL':
+        if self.mode == 'OPERATION':
+            operation = self.get('operation', now, 1.0)
+            if not isinstance(operation, dict) or operation.get('state') != 'ACTIVE':
+                self.stop('Marker-approach operation authority lost')
+                return (0.0, 0.0, 0.0)
+            source = 'auto'
+        elif self.mode == 'MANUAL':
             if (self.get('mission', now) != 'WAITING' or self.get('front', now) is not False or
                     self.get('dock', now) is not False or self.get('lift', now, 2.0) not in ('IDLE', 'LIFTED', 'LOWERED')):
                 self.stop('Manual authority interlock lost')
                 return (0.0, 0.0, 0.0)
-        source = 'manual' if self.mode == 'MANUAL' else 'auto'
+            source = 'manual'
+        else:
+            if self.get('mission', now) is None:
+                self.stop('Supervisor freshness lost')
+                return (0.0, 0.0, 0.0)
+            source = 'auto'
         vector, at = self.vectors.get(source, ((0.0, 0.0, 0.0), -math.inf))
         if now-at > 0.35:
             # Never fall through from Manual to Auto on timeout.
             return (0.0, 0.0, 0.0)
-        limits = (0.20, 0.20, 0.15) if source == 'manual' else (0.15, 0.15, 0.4)
+        # OPERATION uses the conservative manual limits; it is an explicitly
+        # authorized, bounded simulation operation rather than a supervisor demo.
+        limits = (0.20, 0.20, 0.15)
         return tuple(max(-limit, min(value, limit)) for value, limit in zip(vector, limits))

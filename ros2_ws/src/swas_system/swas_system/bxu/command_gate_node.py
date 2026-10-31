@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Optional SIMULATION gate. Remap all three demo velocity publishers BEFORE use."""
+"""Optional SIMULATION gate. Remap all demo velocity publishers BEFORE use."""
+import json
 import time
 import rclpy
 from rclpy.node import Node
@@ -19,8 +20,16 @@ class SimulationCommandGate(Node):
         self.mode_pub = self.create_publisher(String, '/bxu/control/mode', 1)
         self.status_pub = self.create_publisher(String, '/bxu/control/status', 1)
         self.create_subscription(Twist, '/bxu/auto/cmd_vel', lambda m: self.velocity('auto', m), 1)
+        self.create_subscription(
+            Twist,
+            '/bxu/operations/marker_approach/authorized_cmd_vel',
+            lambda m: self.velocity('auto', m),
+            1,
+        )
         self.create_subscription(Twist, '/bxu/teleop/cmd_vel', lambda m: self.velocity('manual', m), 1)
         self.create_subscription(ClockMsg, '/clock', self.clock_cb, qos_profile_sensor_data)
+        self.create_subscription(
+            String, '/bxu/operations/marker_approach/state', self.operation_cb, 1)
         for key, topic, msgtype in [
             ('mission', '/bxu/supervisor/state', String),
             ('front', '/bxu/front_controller/enabled', Bool),
@@ -31,6 +40,11 @@ class SimulationCommandGate(Node):
         for mode, service in [('AUTO','auto'), ('MANUAL','manual'), ('STOP','stop')]:
             self.create_service(Trigger, '/bxu/control/'+service,
                                 lambda req, response, m=mode: self.select(m, response))
+        self.create_service(
+            Trigger,
+            '/bxu/operations/marker_approach/authorize',
+            lambda req, response: self.select('OPERATION', response),
+        )
         self.last_check = 0.0
         self.conflict = False
         self.timer = self.create_timer(0.05, self.tick, clock=Clock(clock_type=ClockType.STEADY_TIME))
@@ -38,6 +52,16 @@ class SimulationCommandGate(Node):
 
     def clock_cb(self, msg):
         self.core.observe('clock', msg.clock.sec + msg.clock.nanosec/1e9, time.monotonic())
+
+    def operation_cb(self, msg):
+        try:
+            payload = json.loads(msg.data)
+        except (TypeError, json.JSONDecodeError):
+            self.get_logger().warn('Ignoring malformed marker-approach operation state.')
+            return
+        if payload.get('operation') != 'marker_approach':
+            return
+        self.core.observe('operation', payload, time.monotonic())
 
     def velocity(self, source, msg):
         self.core.command(source, (msg.linear.x, msg.linear.y, msg.angular.z), time.monotonic())

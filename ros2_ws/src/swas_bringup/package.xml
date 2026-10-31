@@ -11,4 +11,8 @@
   <exec_depend>swas_simulation</exec_depend>
   <exec_depend>swas_hmi</exec_depend>
   <export><build_type>ament_cmake</build_type></export>
+
+  <!-- Manual-only simulation platform runtime dependencies. -->
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>swas_system</exec_depend>
 </package>
