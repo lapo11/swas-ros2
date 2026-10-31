@@ -1,0 +1,49 @@
+# ROS 2 build artifacts
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+yolo_venv/
+
+# Node
+node_modules/
+dist/
+
+# Local backups and transient editor files
+*.bak
+*.backup
+*.pre-*-backup
+*~
+.~lock.*
+.vscode/
+.idea/
+
+# Local archives and generated bundles
+*.zip
+*.tar.gz
+
+# Large/local-only assets
+datasets/
+models/
+cad_drawings/
+backups/
+
+# Local documents that should not be in the code repository
+*.docx
+*.pdf
+
+# Local HMI patch backups
+/ros2_ws/src/swas_hmi/.operation-controls-backups/
+/ros2_ws/src/swas_hmi/.preparation-backups/
+/ros2_ws/src/swas_hmi/.ui-backups/
+
+# Source snapshots produced during local patching
+*.broken-backup
+*.py.pre-output-recovery-*
+*.py.pre-zero-ack-recovery-*
