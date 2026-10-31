@@ -50,9 +50,15 @@ const GUIDES=[
   'Disarm manual controls before leaving the station. Disconnecting the HMI is not a stop command for an automatic sequence.'
  ]},
 ];
-export function helpContext({connection,profile,mission,missionFresh,authority,authorityFresh,clockAdvancing}){
+export function helpContext({connection,profile,mission,missionFresh,authority,authorityFresh,clockAdvancing,platformOnly=false}){
  if(connection!=='Connected')return {title:'Station connection is unavailable',message:'Select the intended profile and Connect. Do not issue movement requests until sequence and authority reports are available.',target:'System',action:'Open connection settings'};
  if(profile==='hardware')return {title:'Hardware profile: monitoring only',message:'This development release does not enable hardware control. Use approved site procedures for physical operation; the profile selector does not grant motion authority.',target:'Overview',action:'Open station overview'};
+ if(platformOnly){
+  if(!authorityFresh)return {title:'Manual platform authority is unavailable',message:'Do not jog until a current command-gate report is available.',target:'Manual',action:'Check manual controls'};
+  if(!clockAdvancing)return {title:'Simulation time is not advancing',message:'Unpause the simulation and request manual authority again. A paused screen is not physical stop confirmation.',target:'Overview',action:'Check station reports'};
+  if(authority==='MANUAL')return {title:'Manual-only platform selected',message:'No demo supervisor is expected. Check the area, choose a low initial speed, arm jogging and hold a direction. Release requests zero.',target:'Manual',action:'Open manual controls'};
+  return {title:'Manual platform is stopped',message:'No automatic demo is loaded. Use Manual to request authority, then arm separately. Lift feedback is acknowledgement only; no lift control is enabled.',target:'Manual',action:'Request manual control'};
+ }
  if(!missionFresh)return {title:'No recent sequence report',message:'The screen is connected, but the current sequence is not confirmed. Check that the intended demo is running and request assistance if reports do not return.',target:'Overview',action:'Check station reports'};
  if(!authorityFresh)return {title:'No recent command-authority report',message:'Manual control is not confirmed. Missing authority information does not mean the robot is stopped. Do not arm jogging or work around disabled controls.',target:'Manual',action:'Check manual authority'};
  if(mission==='FAULT')return {title:'The supervisor reports a fault',message:'Stop the sequence using the approved controls. Do not restart until the cause has been reviewed and the operating area is safe.',target:'Operations',action:'Open operator actions'};

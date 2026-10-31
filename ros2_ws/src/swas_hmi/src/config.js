@@ -34,3 +34,15 @@ export const WORKFLOWS = [
  {id:'inspection',name:'Perception & controller inspection',description:'Observe approach and docking without sending mission commands.',stateKey:'mission'},
 ];
 export const CONTROL={manual:'/bxu/control/manual',auto:'/bxu/control/auto',stop:'/bxu/control/stop',teleop:'/bxu/teleop/cmd_vel'};
+
+// MANUAL_PLATFORM_HMI_STAGE2
+TOPICS.push(['platformLift','/bxu/lift/state','Platform lift acknowledgement (simulation)']);
+
+// SWAS_VISION_APPLICATIONS_PANEL_V1
+TOPICS.push(['runtime','/bxu/runtime/status','Application component manager']);
+
+// SWAS_TWO_VISION_ROWS_V1
+TOPICS.push(['runtimeDocking','/bxu/runtime/components/docking/status','Docking vision manager']);
+
+TOPICS.push(['markerApproachStatus', '/bxu/operations/marker_approach/status', 'Marker approach preparation']);
+TOPICS.push(['markerApproachOperation', '/bxu/operations/marker_approach/state', 'Marker approach operation']);
